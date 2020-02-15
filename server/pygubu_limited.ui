@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface>
+  <object class="ttk.Frame" id="pregame">
+    <property name="borderwidth">15</property>
+    <property name="cursor">top_left_arrow</property>
+    <property name="height">500</property>
+    <property name="padding">20</property>
+    <property name="relief">sunken</property>
+    <property name="width">500</property>
+    <layout>
+      <property name="column">0</property>
+      <property name="ipady">20</property>
+      <property name="padx">0</property>
+      <property name="propagate">True</property>
+      <property name="row">0</property>
+    </layout>
+    <child>
+      <object class="ttk.Label" id="title">
+        <property name="borderwidth">7</property>
+        <property name="font">{Liberation Serif} 48 {bold}</property>
+        <property name="text" translatable="yes">LASER TAG</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="ipady">20</property>
+          <property name="padx">200</property>
+          <property name="pady">0</property>
+          <property name="propagate">True</property>
+          <property name="row">0</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Frame" id="dropdown_menu">
+        <property name="borderwidth">7</property>
+        <property name="height">200</property>
+        <property name="padding">10</property>
+        <property name="relief">sunken</property>
+        <property name="takefocus">false</property>
+        <property name="width">200</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="propagate">True</property>
+          <property name="row">2</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="num_players">
+            <property name="cursor">none</property>
+            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="text" translatable="yes">Select Number of Players</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+              <property name="sticky">e</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Combobox" id="dd_num_players">
+            <property name="exportselection">true</property>
+            <property name="height">2</property>
+            <property name="justify">left</property>
+            <property name="state">readonly</property>
+            <property name="takefocus">false</property>
+            <property name="textvariable">string:num_players</property>
+            <property name="values">"3" "2"</property>
+            <bind add="True" handler="click_num_players" sequence="&lt;&lt;ComboboxSelected&gt;&gt;" />
+            <layout>
+              <property name="column">1</property>
+              <property name="padx">50</property>
+              <property name="propagate">True</property>
+              <property name="row">0</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="game_type">
+            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="text" translatable="yes">Select Game Mode</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Combobox" id="dd_game_mode">
+            <property name="exportselection">true</property>
+            <property name="height">4</property>
+            <property name="state">readonly</property>
+            <property name="takefocus">false</property>
+            <property name="textvariable">string:game_mode</property>
+            <property name="validatecommand">click_game_mode</property>
+            <property name="values">"Classic" "Showdown"</property>
+            <bind add="True" handler="click_game_mode" sequence="&lt;&lt;ComboboxSelected&gt;&gt;" />
+            <layout>
+              <property name="column">1</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="description">
+            <property name="font">{Liberation Serif} 14 {italic}</property>
+            <property name="wraplength">450</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="columnspan">4</property>
+              <property name="padx">30</property>
+              <property name="pady">20</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+              <property name="rowspan">2</property>
+              <property name="sticky">w</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Frame" id="radio_buttons">
+        <property name="borderwidth">7</property>
+        <property name="height">200</property>
+        <property name="relief">sunken</property>
+        <property name="takefocus">false</property>
+        <property name="width">200</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="ipadx">72</property>
+          <property name="ipady">10</property>
+          <property name="pady">20</property>
+          <property name="propagate">True</property>
+          <property name="row">3</property>
+        </layout>
+        <child>
+          <object class="ttk.Label" id="end_limit_type">
+            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="text" translatable="yes">Select End Type</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="padx">40</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="tk.Canvas" id="spacer">
+            <property name="closeenough">0</property>
+            <property name="height">0</property>
+            <property name="width">40</property>
+            <layout>
+              <property name="column">2</property>
+              <property name="ipadx">15</property>
+              <property name="padx">0</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Radiobutton" id="rad_tag_limit">
+            <property name="command">click_end_type</property>
+            <property name="state">normal</property>
+            <property name="takefocus">true</property>
+            <property name="text" translatable="yes">Number of Lives</property>
+            <property name="value">lives</property>
+            <property name="variable">string:end_type</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="propagate">True</property>
+              <property name="row">1</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="end_limit_value">
+            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="text" translatable="yes">End Limit</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="padx">40</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Spinbox" id="end_value">
+            <property name="command">click_end_limit</property>
+            <property name="exportselection">true</property>
+            <property name="font">{Liberation Serif} 16 {}</property>
+            <property name="from_">1</property>
+            <property name="increment">1</property>
+            <property name="takefocus">false</property>
+            <property name="text" translatable="yes">10</property>
+            <property name="textvariable">int:ending_message_value</property>
+            <property name="to">99</property>
+            <property name="width">0</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="columnspan">1</property>
+              <property name="ipadx">10</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">2</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="ending_message">
+            <property name="background">#d9d9d9</property>
+            <property name="compound">top</property>
+            <property name="font">{Liberation Serif} 14 {italic}</property>
+            <property name="text" translatable="yes">Each player will start with</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="columnspan">4</property>
+              <property name="padx">120</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">3</property>
+              <property name="sticky">e</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="ending_message_value">
+            <property name="background">#d9d9d9</property>
+            <property name="compound">top</property>
+            <property name="font">{Liberation Serif} 14 {italic}</property>
+            <property name="textvariable">string:ending_message_value</property>
+            <layout>
+              <property name="column">0</property>
+              <property name="columnspan">4</property>
+              <property name="padx">95</property>
+              <property name="pady">10</property>
+              <property name="propagate">True</property>
+              <property name="row">3</property>
+              <property name="sticky">e</property>
+            </layout>
+          </object>
+        </child>
+        <child>
+          <object class="ttk.Label" id="ending_message_units">
+            <property name="background">#d9d9d9</property>
+            <property name="compound">top</property>
+            <property name="font">{Liberation Serif} 14 {italic}</property>
+            <property name="justify">center</property>
+            <property name="text" translatable="yes">lives</property>
+            <property name="textvariable">string:end_type</property>
+            <property name="width">1</property>
+            <layout>
+              <property name="column">3</property>
+              <property name="columnspan">2</property>
+              <property name="ipadx">15</property>
+              <property name="padx">28</property>
+              <property name="propagate">True</property>
+              <property name="row">3</property>
+              <property name="sticky">w</property>
+            </layout>
+          </object>
+        </child>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Button" id="btn_start_game">
+        <property name="command">click_start_game</property>
+        <property name="cursor">spider</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">Start Game</property>
+        <property name="width">20</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="ipady">10</property>
+          <property name="propagate">False</property>
+          <property name="row">4</property>
+          <property name="rowspan">1</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="num_players_hidden">
+        <property name="background">#d9d9d9</property>
+        <property name="font">{Liberation Sans Narrow} 6 {italic}</property>
+        <property name="foreground">#d9d9d9</property>
+        <property name="justify">left</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">            &lt;select&gt;</property>
+        <property name="textvariable">int:num_players</property>
+        <property name="underline">1</property>
+        <property name="width">1</property>
+        <layout>
+          <property name="column">1</property>
+          <property name="propagate">True</property>
+          <property name="row">4</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="game_mode_hidden">
+        <property name="background">#d9d9d9</property>
+        <property name="font">{Liberation Sans Narrow} 6 {italic}</property>
+        <property name="foreground">#d9d9d9</property>
+        <property name="justify">left</property>
+        <property name="takefocus">false</property>
+        <property name="text" translatable="yes">            &lt;select&gt;</property>
+        <property name="textvariable">int:game_mode</property>
+        <property name="underline">1</property>
+        <property name="width">1</property>
+        <layout>
+          <property name="column">1</property>
+          <property name="propagate">True</property>
+          <property name="row">4</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="ttk.Label" id="starting_prompt">
+        <property name="font">{Liberation Serif} 14 {italic}</property>
+        <layout>
+          <property name="column">0</property>
+          <property name="columnspan">4</property>
+          <property name="padx">30</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="row">5</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>
