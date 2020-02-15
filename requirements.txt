@@ -1,3 +1,4 @@
-libatlas-base-dev
-pillow
-libopenjp2-7-dev
+pygubu
+pahoo.mqtt
+RPi.GPIO
+smbus
