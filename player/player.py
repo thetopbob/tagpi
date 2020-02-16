@@ -24,7 +24,7 @@ from random import randint
 import ast
 # import lirc
 import ltsounds
-import lcddriver
+#import lcddriver
 from subprocess import call
 import threading
 from datetime import datetime
@@ -50,8 +50,8 @@ def onConnect(client,userdata,flags,rc):
     if(rc==0): print("Connected")
     client.subscribe([('game/players',0),('game/players/'+CLIENT,0)])
     print("Waiting for other players...")
-    lcd.lcd_display_string("  Waiting  for  ",1)
-    lcd.lcd_display_string("other players...",2)
+    #lcd.lcd_display_string("  Waiting  for  ",1)
+    #lcd.lcd_display_string("other players...",2)
 
 def onMessage(client,userdata,message):
     global game_in_progress,gvars_dict,newgame
@@ -67,8 +67,8 @@ def onMessage(client,userdata,message):
         sleep(5)
         sound('endgame')
         sleep(2)
-        lcd.lcd_display_string("Return to Server",1)
-        lcd.lcd_display_string(" for Game Stats ",2)
+        #lcd.lcd_display_string("Return to Server",1)
+        #lcd.lcd_display_string(" for Game Stats ",2)
     elif(message.payload.decode()=='dead'):
         print("You got a kill!")
     elif(message.payload.decode()=='message from server'):
@@ -142,7 +142,7 @@ def shoot(pin):
     if(stats['health']==0 or stats['ammo']==0 or stats['deaths']>maxDeaths):
         sound('error')
     else:
-        call(["irsend","SEND_ONCE","ltag",'Classic'+CLIENT])
+        #call(["irsend","SEND_ONCE","ltag",'Classic'+CLIENT])
 #        call(["irsend","SEND_ONCE","ltag",gvars_dict['game_mode']+CLIENT])
         stats['shots_fired']+=1
         stats['ammo']-=1
@@ -197,8 +197,8 @@ def update_display():
         t=datetime.now()
         td=t-start_time
         duration=" %02d:%02d "%(td.seconds//60,td.seconds%60)
-        lcd.lcd_display_string(duration+"   HP: "+"%02s"%(stats['health']),1)
-        lcd.lcd_display_string("Tgs: "+str(stats['kills'])+" Ammo: "+"%02s"%(stats['ammo']),2)
+        #lcd.lcd_display_string(duration+"   HP: "+"%02s"%(stats['health']),1)
+        #lcd.lcd_display_string("Tgs: "+str(stats['kills'])+" Ammo: "+"%02s"%(stats['ammo']),2)
 
 def dead(return_topic):
     global stats,game_in_progress
@@ -209,8 +209,8 @@ def dead(return_topic):
         LED(RED,3)
     sleep(1)
     player.publish(return_topic,'dead')
-    lcd.lcd_display_string("  You are dead  ",1)
-    lcd.lcd_display_string("                ",2)
+    #lcd.lcd_display_string("  You are dead  ",1)
+    #lcd.lcd_display_string("                ",2)
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
     global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
@@ -304,12 +304,12 @@ def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Ta
         waitTime = 2.0
         message = "  Laser Master  "
 
-    lcd.lcd_display_string("    starting    ",1)
-    lcd.lcd_display_string(str(message),2)
+    #lcd.lcd_display_string("    starting    ",1)
+    #lcd.lcd_display_string(str(message),2)
     sleep(2)
-    lcd.lcd_display_string(str(message),1)
+    #lcd.lcd_display_string(str(message),1)
     for i in range(game_wait,-1,-1):
-        lcd.lcd_display_string("       0"+str(i)+"       ",1)
+        #lcd.lcd_display_string("       0"+str(i)+"       ",1)
         if(i==2):
             sound('begingame')
         sleep(1)
@@ -323,7 +323,7 @@ try:
     player.on_message=onMessage
     player.on_disconnect=onDisconnect
     sound_class = ltsounds.Buzzer()
-    lcd = lcddriver.lcd()
+    #lcd = lcddriver.lcd()
     #sockid=lirc.init("ltag",blocking=False)
     game_in_progress=False
 #    repeat=0
