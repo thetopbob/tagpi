@@ -22,12 +22,13 @@ from time import sleep
 import RPi.GPIO as GPIO
 from random import randint
 import ast
-import lirc
+# import lirc
 import ltsounds
 import lcddriver
 from subprocess import call
 import threading
 from datetime import datetime
+from py_irsend import irsend
 
 GPIO.setmode(GPIO.BCM)
 TRIGGER=26
@@ -323,7 +324,7 @@ try:
     player.on_disconnect=onDisconnect
     sound_class = ltsounds.Buzzer()
     lcd = lcddriver.lcd()
-    sockid=lirc.init("ltag",blocking=False)
+    #sockid=lirc.init("ltag",blocking=False)
     game_in_progress=False
 #    repeat=0
     GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400)
@@ -356,7 +357,7 @@ try:
 
         while game_in_progress:
             sleep(.1)
-            code=lirc.nextcode()
+            #code=lirc.nextcode()
             if code:
                 tag_received(str(code))
 
