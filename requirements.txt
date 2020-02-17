@@ -1,4 +1,6 @@
 pygubu
-pahoo.mqtt
+pillow
+paho-mqtt
 RPi.GPIO
 smbus
+matplotlib
