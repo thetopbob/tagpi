@@ -7,7 +7,7 @@ LTSERVER='192.168.1.225' #insert IP address of server computer
 #BUZZER:     GPIO5
 #TRIGGER:    GPIO26
 #RELOAD:     GPIO12
-#IR_TX:      GPIO25
+#IR_TX:      GPIO22
 #IR_RX       GPIO18         Notes for wiring
 #RED:        GPIO17
 #GREEN:      GPIO27
