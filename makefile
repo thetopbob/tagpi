@@ -4,4 +4,4 @@ NAME := tagpi
 install:
 	sudo apt-get install python3 python3-pip libatlas-base-dev libopenjp2-7-dev mosquitto
 	sudo pip install -r requirements.txt
-	sudo mv remotes/lircrc /etc/lirc/lircd.conf.d/
+	sudo cp remotes/lircrc /etc/lirc/lircd.conf.d/
