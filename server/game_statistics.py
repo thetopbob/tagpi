@@ -12,10 +12,12 @@ import time
 import os
 import shutil
 
-rshoulder=[110,180]
-lshoulder=[290,180]
-chest=[200,300]
-back=[200,650]
+#rshoulder=[110,180]
+#lshoulder=[290,180]
+#chest=[200,300]
+#back=[200,650]
+rhull=[110,180]
+lhull=[290,180]
 dictionary=['tags_given','tags_received']
 subplotnum=[121,122]
 image=['enemies.png','self.png']
@@ -48,14 +50,14 @@ def compile_stats(player1,player2,player3,duration):
             plt.axis('off')
             for tags in player[dictionary[i]]:
                 for x in range(0,player[dictionary[i]][tags]):
-                    if(tags=='rshoulder'):
-                        plt.scatter(x=rshoulder[0]+rando(),y=rshoulder[1]+rando(),c=color[i],s=size)
+                    if(tags=='rhull'):
+                        plt.scatter(x=rhull[0]+rando(),y=rhull[1]+rando(),c=color[i],s=size)
                     elif(tags=='lshoulder'):
-                        plt.scatter(x=lshoulder[0]+rando(),y=lshoulder[1]+rando(),c=color[i],s=size)
-                    elif(tags=='chest'):
-                        plt.scatter(x=chest[0]+rando(),y=chest[1]+rando(),c=color[i],s=size)
-                    elif(tags=='back'):
-                        plt.scatter(x=back[0]+rando(),y=back[1]+rando(),c=color[i],s=size)
+                        plt.scatter(x=lhull[0]+rando(),y=lhull[1]+rando(),c=color[i],s=size)
+                    # elif(tags=='chest'):
+                    #    plt.scatter(x=chest[0]+rando(),y=chest[1]+rando(),c=color[i],s=size)
+                    #elif(tags=='back'):
+                    #    plt.scatter(x=back[0]+rando(),y=back[1]+rando(),c=color[i],s=size)
 
         plt.savefig(str(player['player'])+'player_stats.png',bbox_inches='tight')
         plt.subplots_adjust(wspace=0,hspace=0)
