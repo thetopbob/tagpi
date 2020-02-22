@@ -11,7 +11,7 @@ LTSERVER='192.168.1.225' #insert IP address of server computer
 #IR_RX       GPIO18         Notes for wiring
 #RED:        GPIO17
 #GREEN:      GPIO27
-#BLUE:       GPIO22
+#BLUE:       GPIO19
 #I2C_SDA:    GPIO2
 #I2C_SCL:    GPIO3
 #---------------------
@@ -35,7 +35,7 @@ TRIGGER=26
 RELOAD=12
 RED=17
 GREEN=27
-BLUE=22
+BLUE=19
 newgame='waiting'
 game_wait=3
 connected=False
@@ -146,7 +146,7 @@ def shoot(pin):
 #        call(["irsend","SEND_ONCE","ltag",gvars_dict['game_mode']+CLIENT])
         stats['shots_fired']+=1
         stats['ammo']-=1
-#        print("shoot")
+        print("shoot") #MB uncommented this line so that we can check logs when shooting 
         sound('shoot')
         LED(GREEN,0.2)
 
@@ -342,8 +342,8 @@ try:
 
     while True:
         stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,
-            ammo=0,tags_given=dict(rshoulder=0,lshoulder=0,chest=0,back=0),
-            tags_received=dict(rshoulder=0,lshoulder=0,chest=0,back=0))
+            ammo=0,tags_given=dict(rhull=0,lhull=0),
+            tags_received=dict(rhull=0,lhull=0))
         player.loop_start()
         player.publish('game/ltserver','ready')
 
