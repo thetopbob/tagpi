@@ -139,9 +139,12 @@ def LED_waiting(delay):
 
 def shoot(pin):
     global maxDeaths, stats
-    if(stats['health']==0 or stats['ammo']==0 or stats['deaths']>maxDeaths):
+    if(stats['health']==0 or stats['deaths']>maxDeaths):
         sound('error')
-    else:
+    elif:
+        stats['ammo']==0:
+        LED(BLUE,1)
+    elif:
         #call(["irsend","SEND_ONCE","ltag",'Classic'+CLIENT])
         irsend.send_once('ltag', [gvars_dict['game_mode']+CLIENT]) #New line that utilises the py_irsend module
         #call(["irsend","SEND_ONCE","ltag",gvars_dict['game_mode']+CLIENT])
@@ -168,7 +171,7 @@ def tag_received(code):
         dead(return_topic)
     else:
         sound('tag_received')
-        LED(RED,0.2)
+        LED(RED,1)
 
 def tag_given():
     global stats
@@ -178,7 +181,7 @@ def tag_given():
     stats['tags_given'][tmp]+=1
     stats['kills']+=1
     sound('tag_given')
-    LED(BLUE,0.2)
+    LED(BLUE,1)
 
 def player_reload(pin):
     global stats,game_in_progress#,repeat
@@ -187,6 +190,7 @@ def player_reload(pin):
     else:
         sound('reloading')
         stats['ammo'] = maxAmmo
+        LED(GREEN,1)
 #    if(game_in_progress == False):
 #        repeat+=1
 
