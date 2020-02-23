@@ -9,9 +9,9 @@ LTSERVER='192.168.1.225' #insert IP address of server computer
 #RELOAD:     GPIO12
 #IR_TX:      GPIO22
 #IR_RX       GPIO18         Notes for wiring
-#RED:        GPIO17
-#GREEN:      GPIO27
-#BLUE:       GPIO19
+#RED:        GPIO13
+#GREEN:      GPIO19
+#BLUE:       GPIO26
 #I2C_SDA:    GPIO2
 #I2C_SCL:    GPIO3
 #---------------------
@@ -33,9 +33,9 @@ from py_irsend import irsend
 GPIO.setmode(GPIO.BCM)
 TRIGGER=26
 RELOAD=12
-RED=17
-GREEN=27
-BLUE=19
+RED=13
+GREEN=19
+BLUE=26
 newgame='waiting'
 game_wait=3
 connected=False
