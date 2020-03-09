@@ -31,7 +31,7 @@ from datetime import datetime
 from py_irsend import irsend
 
 GPIO.setmode(GPIO.BCM)
-TRIGGER=26
+TRIGGER=23
 RELOAD=12
 RED=20
 GREEN=21
@@ -40,8 +40,8 @@ newgame='waiting'
 game_wait=3
 connected=False
 
-GPIO.setup(TRIGGER, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(RELOAD, GPIO.IN,pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(TRIGGER, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(RELOAD, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
