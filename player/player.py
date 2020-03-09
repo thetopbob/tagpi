@@ -141,9 +141,9 @@ def shoot(pin):
     global maxDeaths, stats
     if(stats['health']==0 or stats['deaths']>maxDeaths):
         sound('error')
-    elif(stats['ammo']==0:
+    elif(stats['ammo']==0):
         LED(BLUE,1)
-    elif(stats['ammo']>=1:
+    elif(stats['ammo']>=1):
         #call(["irsend","SEND_ONCE","ltag",'Classic'+CLIENT])
         irsend.send_once('ltag', [gvars_dict['game_mode']+CLIENT]) #New line that utilises the py_irsend module
         #call(["irsend","SEND_ONCE","ltag",gvars_dict['game_mode']+CLIENT])
