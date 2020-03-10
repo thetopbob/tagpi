@@ -60,7 +60,12 @@ if __name__ == "__main__":
                 if event.value == 0:
                     currentBtn = "up"
                     while True:
-                        print(f"{currentBtn}")
+                        for event in gamepad.read_loop():
+                            if event.type == ecodes.EV_ABS:
+                                if event.code == 32768:
+                                    print(f"{currentBtn} released")
+                                else:
+                                    print(f"{currentBtn} pushed")
                 elif event.value == 65535:
                     currentBtn = "down"
                     while True:
