@@ -16,16 +16,15 @@ bBtn = 304
 xBtn = 307
 yBtn = 306
 r1Btn = 309
-r2Btn = 5
 l1Btn = 308
-l2Btn = 2
 startBtn = 311
 selectBtn = 310
-
+# r2 and l2 are on a different value, 1023, so they need to be nested as another if statement too
+l2Btn = 2
+r2Btn = 5
 
 if __name__ == "__main__":
-    print(gamepad)
-
+    print(f"Start pushing buttons on your {gamepad}")
     for event in gamepad.read_loop():
         if event.type == ecodes.EV_KEY:
             if event.value == 1:
