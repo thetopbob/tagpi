@@ -1,6 +1,6 @@
 from evdev import InputDevice, categorize, ecodes
 from time import sleep
-from threating import Thread
+from threading import Thread
 import time
 import queue
 
