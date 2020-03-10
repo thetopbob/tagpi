@@ -40,9 +40,9 @@ currentBtn = 0
 
 def gamepad_update():
     events = gamepad.read_loop()
-    codename = ecodes.bytype
     return_code = 'No Match'
     for event in events:
+        codename = event.type
         print(f"{codename}")
         event_test = controller_input.get(codename, 'No Match')
         print(f"{event_test}")
