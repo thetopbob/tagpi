@@ -13,6 +13,10 @@ gamepad = InputDevice('/dev/input/event1')
 # the Y-axis and build on that.
 # Simlarly for the x-axis, left and right are code 0, with left being 0 
 # and right being 65535
+
+# Dictionary of buttons
+controller_input = {'BTN_A':0, 'BTC_C':0, 'BTN_X':0, 'BTN_B':0, 'ABS_X':0, 'ABS_Y':0}
+
 upBtn = 0
 downBtn = 65535
 yaxisNeutral = 32768
@@ -31,10 +35,47 @@ selectBtn = 310
 # r2 and l2 are recorded as EV_ABS and on a different value, 1023
 l2Btn = 2
 r2Btn = 5
+
 currentBtn = 0
 
-if __name__ == "__main__":
+def gamepad_update():
+    return_code = 'No Match'
+    for event in gamepad.read_loop():
+        event_test = controller_input.get(event.code, 'No Match')
+        print("{event_test}")
+        if event_test != 'No Match':
+            controller_input[event.code] = event.state
+            return_code = event.code
+        else:
+            return_code = 'No Match'
+ 
+    return return_code
+
+def drive_control():
+    print("I am driving")
+
+def fire_weapon():
+    print("I am firing")
+
+
+def reload_weapon():
+    print("I am reloading")
+
+
+def main():
     print(f"Start pushing buttons on your {gamepad}")
+    while 1:
+        control_code = gamepad_update()
+        
+        if control_code == 'ABS_X' or control_code =='ABS_Y':
+            drive_control()
+        elif control_code == 'BTN_A' or control_code =='BTN_C' or control_code == 'BTN_X':
+            fire_weapon()
+        elif control_code == 'BTN_Y':
+            reload_weapon()
+
+            
+def old_code():
     for event in gamepad.read_loop():
         if event.type == ecodes.EV_KEY:
             if event.value == 1:
@@ -91,3 +132,7 @@ if __name__ == "__main__":
                     print("L2 button")
                 elif event.code == r2Btn:
                     print("R2 button")
+
+
+if __name__ == "__main__":
+    main()
