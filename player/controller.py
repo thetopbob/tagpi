@@ -44,14 +44,16 @@ def gamepad_update():
     for event in events:
         codename = event.type
         print(f"{codename}")
+        
         event_test = controller_input.get(codename, 'No Match')
         print(f"{event_test}")
+        
         if event_test != 'No Match':
             controller_input[codename] = event.state
             return_code = codename
         else:
             return_code = 'No Match'
- 
+    
     return return_code
 
 def drive_control():
