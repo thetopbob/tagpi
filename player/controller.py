@@ -22,39 +22,41 @@ l2Btn = 2
 startBtn = 311
 selectBtn = 310
 
-print(gamepad)
 
-for event in gamepad.read_loop():
-    if event.type == ecodes.EV_KEY:
-        if event.value == 1:
-            if event.code == yBtn:
-                print("Y")
-            elif event.code == bBtn:
-                print("B")
-            elif event.code == aBtn:
-                print("A")
-            elif event.code == xBtn:
-                print("X")
-            elif event.code == startBtn:
-                print("start")
-            elif event.code == selectBtn:
-                print("select")
-            elif event.code == l1Btn:
-                print("left bumper")
-            elif event.code == r1Btn:
-                print("right bumper")
-            elif event.code == l2Btn:
-                print("L2 button")
-            elif event.code == r2Btn:
-                print("R2 Button")
-    elif event.type == ecodes.EV_ABS:
-        if event.code == 1:
-            if event.value == upBtn:
-                print("up")
-            elif event.value == downBtn:
-                print("down")
-        elif event.code == 0:
-            if event.value == leftBtn:
-                print("left")
-            elif event.value == rightBtn:
-                print("right")
+if __name__ == "__main__":
+    print(gamepad)
+
+    for event in gamepad.read_loop():
+        if event.type == ecodes.EV_KEY:
+            if event.value == 1:
+                if event.code == yBtn:
+                    print("Y")
+                elif event.code == bBtn:
+                    print("B")
+                elif event.code == aBtn:
+                    print("A")
+                elif event.code == xBtn:
+                    print("X")
+                elif event.code == startBtn:
+                    print("start")
+                elif event.code == selectBtn:
+                    print("select")
+                elif event.code == l1Btn:
+                    print("left bumper")
+                elif event.code == r1Btn:
+                    print("right bumper")
+                elif event.code == l2Btn:
+                    print("L2 button")
+                elif event.code == r2Btn:
+                    print("R2 Button")
+        elif event.type == ecodes.EV_ABS:
+            if event.code == 1:
+                if event.value == upBtn:
+                    print("up")
+                elif event.value == downBtn:
+                    print("down")
+            elif event.code == 0:
+                if event.value == leftBtn:
+                    print("left")
+                elif event.value == rightBtn:
+                    print("right")
