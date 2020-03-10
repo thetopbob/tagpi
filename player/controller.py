@@ -44,10 +44,11 @@ if __name__ == "__main__":
                     print("left bumper")
                 elif event.code == r1Btn:
                     print("right bumper")
-                elif event.code == l2Btn:
+            elif event.value == 1023:
+                if event.code == l2Btn:
                     print("L2 button")
                 elif event.code == r2Btn:
-                    print("R2 Button")
+                    print("R2 button")
         elif event.type == ecodes.EV_ABS:
             if event.code == 1:
                 if event.value == upBtn:
