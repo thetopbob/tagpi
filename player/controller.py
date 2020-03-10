@@ -42,7 +42,6 @@ def gamepad_update():
     return_code = 'No Match'
     for event in gamepad.read_loop():
         event_test = controller_input.get(event.code, 'No Match')
-        print("{event_test}")
         if event_test != 'No Match':
             controller_input[event.code] = event.state
             return_code = event.code
@@ -66,7 +65,7 @@ def main():
     print(f"Start pushing buttons on your {gamepad}")
     while 1:
         control_code = gamepad_update()
-        
+        print(f"{control_code}")
         if control_code == 'ABS_X' or control_code =='ABS_Y':
             drive_control()
         elif control_code == 'BTN_A' or control_code =='BTN_C' or control_code == 'BTN_X':
