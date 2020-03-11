@@ -42,12 +42,12 @@ def gamepad_update():
     events = gamepad.read_loop()
     return_code = 'No Match'
     for event in events:
-        codename = event.value
+        codename = event.code
         print(f"Codename is {codename}")
         event_test = controller_input.get(codename, 'No Match')
         print(f"Event_test is {event_test}")
         if event_test != 'No Match':
-            controller_input[codename] = event.value
+            controller_input[codename] = event.code
             return_code = codename
         else:
             return_code = 'No Match'
