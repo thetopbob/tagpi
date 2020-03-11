@@ -15,7 +15,7 @@ gamepad = InputDevice('/dev/input/event1')
 # and right being 65535
 
 # Dictionary of buttons
-controller_input = {'BTN_A':0, 'BTC_C':0, 'BTN_X':0, 'BTN_B':0, 'ABS_X':0, 'ABS_Y':0}
+controller_input = {305:'BTN_A', 306:'BTC_C', 307:'BTN_X', 304:'BTN_B', 309:'BTN_Z', 'ABS_X':0, 'ABS_Y':0}
 
 upBtn = 0
 downBtn = 65535
@@ -42,14 +42,12 @@ def gamepad_update():
     events = gamepad.read_loop()
     return_code = 'No Match'
     for event in events:
-        codename = event.type
+        codename = event.value
         print(f"{codename}")
-        
         event_test = controller_input.get(codename, 'No Match')
         print(f"{event_test}")
-        
         if event_test != 'No Match':
-            controller_input[codename] = event.state
+            controller_input[codename] = event.value
             return_code = codename
         else:
             return_code = 'No Match'
@@ -62,10 +60,8 @@ def drive_control():
 def fire_weapon():
     print("I am firing")
 
-
 def reload_weapon():
     print("I am reloading")
-
 
 def main():
     print(f"Start pushing buttons on your {gamepad}")
@@ -74,12 +70,12 @@ def main():
         print(f"{control_code}")
         if control_code == 'ABS_X' or control_code =='ABS_Y':
             drive_control()
-        elif control_code == 'BTN_A' or control_code =='BTN_C' or control_code == 'BTN_X':
+        elif control_code == '304':
             fire_weapon()
-        elif control_code == 'BTN_Y':
+        elif control_code == '306':
             reload_weapon()
 
-            
+
 def old_code():
     for event in gamepad.read_loop():
         if event.type == ecodes.EV_KEY:
