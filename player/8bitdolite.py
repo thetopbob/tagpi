@@ -17,7 +17,7 @@ class BitDoLite(Controller):
             Used to set the hot zone for each :class:`approxeng.input.CentredAxis` in the controller.
         """
         super(BitDoLite, self).__init__(
-				controls=[
+			controls=[
 					Button("B", 304, sname='cross'),
 					Button("A", 305, sname='circle'),
 					Button("Y", 306, sname='square'),
