@@ -3,12 +3,12 @@ from time import sleep
 import RPi.GPIO as GPIO
 
 def circlepress():
-GPIO.setmode(GPIO.BCM)
-GPIO.setwarnings(False)
-GPIO.setup(20,GPIO.OUT)
-GPIO.setup(21,GPIO.OUT)
-GPIO.setup(26,GPIO.OUT)
-GPIO.setup(22,GPIO.OUT)
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setwarnings(False)
+	GPIO.setup(20,GPIO.OUT)
+	GPIO.setup(21,GPIO.OUT)
+	GPIO.setup(26,GPIO.OUT)
+	GPIO.setup(22,GPIO.OUT)
 	print "ALL LEDs on"
 	GPIO.output(20,GPIO.HIGH)
 	GPIO.output(21,GPIO.HIGH)
