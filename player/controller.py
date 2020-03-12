@@ -34,8 +34,8 @@ while True:
 				if joystick.presses.circle:
 					circlepress()
 				if joystick.presses_square:
-					squarepress()															squarepress()
-        # Joystick disconnected..
+					squarepress()
+				# Joystick disconnected..
                                 #print('Connection to joystick lost')
 	except IOError:
         # No joystick found, wait for a bit before trying again
