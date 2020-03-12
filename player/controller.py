@@ -29,11 +29,11 @@ while True:
 			#print(joystick.controls)
 			while joystick.connected:
 				joystick.check_presses()
-				if joystick.has_presses:
-					print(joystick.presses)
+				#if joystick.has_presses:
+					#print(joystick.presses)
 				if joystick.presses.circle:
 					circlepress()
-				if joystick.presses_square:
+				elif joystick.presses_square:
 					squarepress()
 				# Joystick disconnected..
                                 #print('Connection to joystick lost')
