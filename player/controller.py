@@ -23,21 +23,21 @@ def squarepress():
 	GPIO.output(22,GPIO.LOW)
 
 while True:
-        try:
-                with ControllerResource() as joystick:
-                        print('Found a joystick and connected')
-                        #print(joystick.controls)
-                        while joystick.connected:
-                                joystick.check_presses()
-                                if joystick.has_presses:
-                                        print(joystick.presses)
-                                if joystick.presses.circle:
-                                        circlepress()
-                                if joystick.presses_square:
-																				squarepress()
+	try:
+		with ControllerResource() as joystick:
+			print('Found a joystick and connected')
+			#print(joystick.controls)
+			while joystick.connected:
+				joystick.check_presses()
+				if joystick.has_presses:
+					print(joystick.presses)
+				if joystick.presses.circle:
+					circlepress()
+				if joystick.presses_square:
+					squarepress()															squarepress()
         # Joystick disconnected..
                                 #print('Connection to joystick lost')
-        except IOError:
+	except IOError:
         # No joystick found, wait for a bit before trying again
-                print('Unable to find any joysticks')
-                sleep(1.0)
+		print('Unable to find any joysticks')
+		sleep(1.0)
