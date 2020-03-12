@@ -35,7 +35,7 @@ class BitDoLite(Controller):
                 hot_zone=hot_zone)
 	
 	@staticmethod
-    def registration_ids():
+	def registration_ids():
         """
         :return: list of (vendor_id, product_id) for this controller
 		MY_VENDOR_ID = 1118
@@ -43,5 +43,5 @@ class BitDoLite(Controller):
         """
 		return[(1118, 736)]
 	
-    def __repr__(self):
-        return 'BitDoLite'
+	def __repr__(self):
+        	return 'BitDoLite'
