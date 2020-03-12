@@ -16,7 +16,7 @@ def circlepress():
 	GPIO.output(22,GPIO.HIGH)
 
 def squarepress():
-	print ("ALL LEDs off")
+	print("ALL LEDs off")
 	GPIO.output(20,GPIO.LOW)
 	GPIO.output(21,GPIO.LOW)
 	GPIO.output(26,GPIO.LOW)
