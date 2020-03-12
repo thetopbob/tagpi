@@ -33,7 +33,7 @@ while True:
 					#print(joystick.presses)
 				if joystick.presses.circle:
 					circlepress()
-				elif joystick.presses_square:
+				elif joystick.presses.square:
 					squarepress()
 				# Joystick disconnected..
                                 #print('Connection to joystick lost')
