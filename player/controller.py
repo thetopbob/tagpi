@@ -9,18 +9,18 @@ GPIO.setup(20,GPIO.OUT)
 GPIO.setup(21,GPIO.OUT)
 GPIO.setup(26,GPIO.OUT)
 GPIO.setup(22,GPIO.OUT)
-print "ALL LEDs on"
-GPIO.output(20,GPIO.HIGH)
-GPIO.output(21,GPIO.HIGH)
-GPIO.output(26,GPIO.HIGH)
-GPIO.output(22,GPIO.HIGH)
+	print "ALL LEDs on"
+	GPIO.output(20,GPIO.HIGH)
+	GPIO.output(21,GPIO.HIGH)
+	GPIO.output(26,GPIO.HIGH)
+	GPIO.output(22,GPIO.HIGH)
 
 def squarepress():
-print "ALL LEDs off"
-GPIO.output(20,GPIO.LOW)
-GPIO.output(21,GPIO.LOW)
-GPIO.output(26,GPIO.LOW)
-GPIO.output(22,GPIO.LOW)
+	print "ALL LEDs off"
+	GPIO.output(20,GPIO.LOW)
+	GPIO.output(21,GPIO.LOW)
+	GPIO.output(26,GPIO.LOW)
+	GPIO.output(22,GPIO.LOW)
 
 while True:
         try:
