@@ -53,56 +53,56 @@ GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
 
 def onConnect(client,userdata,flags,rc):
-    if(rc==0): print("Connected")
-    client.subscribe([('game/players',0),('game/players/'+CLIENT,0)])
-    print("Waiting for other players...")
-    #lcd.lcd_display_string("  Waiting  for  ",1)
-    #lcd.lcd_display_string("other players...",2)
+	if(rc==0): print("Connected")
+	client.subscribe([('game/players',0),('game/players/'+CLIENT,0)])
+	print("Waiting for other players...")
+	#lcd.lcd_display_string("  Waiting  for  ",1)
+	#lcd.lcd_display_string("other players...",2)
 
 def onMessage(client,userdata,message):
-    global game_in_progress,gvars_dict,newgame
-    if(len(message.payload)==1):
-        tag_given()
-    elif(message.payload.decode()=='start game'):
-        print("Server has started the game")
-        game_in_progress=True
-    elif(message.payload.decode()=='game over'):
-        player.publish('game/ltserver',str(stats))
-        print("Server has ended the game")
-        game_in_progress=False
-        sleep(5)
-        sound('endgame')
-        sleep(2)
-        #lcd.lcd_display_string("Return to Server",1)
-        #lcd.lcd_display_string(" for Game Stats ",2)
-    elif(message.payload.decode()=='dead'):
-        print("You got a kill!")
-    elif(message.payload.decode()=='message from server'):
-        print("message!")
-    elif(message.payload.decode()=='you hit them'):
-        tag_given()
-    elif(message.payload.decode()=='next'):
-        newgame='next'
-    elif(message.payload.decode()=='exit'):
-        newgame='exit'
-    elif(message.payload.decode()[0:8]=="Starting"):
-        print(message.payload.decode())
-    else:
-        gvars_dict=ast.literal_eval(message.payload.decode())
+	global game_in_progress,gvars_dict,newgame
+	if(len(message.payload)==1):
+		tag_given()
+	elif(message.payload.decode()=='start game'):
+		print("Server has started the game")
+		game_in_progress=True
+	elif(message.payload.decode()=='game over'):
+		player.publish('game/ltserver',str(stats))
+		print("Server has ended the game")
+		game_in_progress=False
+		sleep(5)
+		sound('endgame')
+		sleep(2)
+		#lcd.lcd_display_string("Return to Server",1)
+		#lcd.lcd_display_string(" for Game Stats ",2)
+	elif(message.payload.decode()=='dead'):
+		print("You got a kill!")
+	elif(message.payload.decode()=='message from server'):
+		print("message!")
+	elif(message.payload.decode()=='you hit them'):
+		tag_given()
+	elif(message.payload.decode()=='next'):
+		newgame='next'
+	elif(message.payload.decode()=='exit'):
+		newgame='exit'
+	elif(message.payload.decode()[0:8]=="Starting"):
+		print(message.payload.decode())
+	else:
+		gvars_dict=ast.literal_eval(message.payload.decode())
 
 def onDisconnect(client,userdata,message):
-    player.unsubscribe('game/players')
-    player.unsubscribe('game/ltserver')
-    player.unsubscribe('game/players/'+CLIENT)
-    player.loop_stop()
-    GPIO.cleanup()
-    print("Disconnected from broker")
-    _exit(0)
+	player.unsubscribe('game/players')
+	player.unsubscribe('game/ltserver')
+	player.unsubscribe('game/players/'+CLIENT)
+	player.loop_stop()
+	GPIO.cleanup()
+	print("Disconnected from broker")
+	_exit(0)
 
 def sound(event):
-    sound_thread=threading.Thread(target=sound_func,args=[event])
-    sound_thread.daemon=True
-    sound_thread.start()
+	sound_thread=threading.Thread(target=sound_func,args=[event])
+	sound_thread.daemon=True
+	sound_thread.start()
 
 def sound_func(event):
     #1 = LaserSound,2 = Not used,3 = Start Game
@@ -314,12 +314,12 @@ def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Ta
         waitTime = 2.0
         message = "  Laser Master  "
 
-    #lcd.lcd_display_string("    starting    ",1)
-    #lcd.lcd_display_string(str(message),2)
+	#lcd.lcd_display_string("    starting    ",1)
+	#lcd.lcd_display_string(str(message),2)
 	sleep(2)
-    #lcd.lcd_display_string(str(message),1)
+	#lcd.lcd_display_string(str(message),1)
 	for i in range(game_wait,-1,-1):
-        #lcd.lcd_display_string("       0"+str(i)+"       ",1)
+		#lcd.lcd_display_string("       0"+str(i)+"       ",1)
 		if(i==2):
 			sound('begingame')
 		sleep(1)
@@ -329,31 +329,31 @@ def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Ta
 #                        MAIN
 #----------------------------------------------------------
 try:
-    player=mqtt.Client(client_id=CLIENT,clean_session=True)
-    player.on_connect=onConnect
-    player.on_message=onMessage
-    player.on_disconnect=onDisconnect
-    sound_class = ltsounds.Buzzer()
-    #lcd = lcddriver.lcd()
-    #sockid=lirc.init("ltag",blocking=False)
-    game_in_progress=False
-#    repeat=0
-    GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400)
-    GPIO.add_event_detect(RELOAD,GPIO.RISING,player_reload,bouncetime=400)
+	player=mqtt.Client(client_id=CLIENT,clean_session=True)
+	player.on_connect=onConnect
+	player.on_message=onMessage
+	player.on_disconnect=onDisconnect
+	sound_class = ltsounds.Buzzer()
+	#lcd = lcddriver.lcd()
+	#sockid=lirc.init("ltag",blocking=False)
+	game_in_progress=False
+	#repeat=0
+	GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400)
+	GPIO.add_event_detect(RELOAD,GPIO.RISING,player_reload,bouncetime=400)
 
-    while not connected:
-        try:
-            player.connect(LTSERVER,keepalive=60,bind_address="")
-            connected=True
-        except ConnectionRefusedError:
-            print('LTServer must be started first...')
-            LED_waiting(0.3)
-            sleep(1)
-    connected=False
+	while not connected:
+		try:
+			player.connect(LTSERVER,keepalive=60,bind_address="")
+			connected=True
+		except ConnectionRefusedError:
+			print('LTServer must be started first...')
+			LED_waiting(0.3)
+			sleep(1)
+	connected=False
 
-    while True:
-        try:
-            stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,ammo=0,
+	while True:
+		try:
+			stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,ammo=0,
 			tags_given=dict(rhull=0,lhull=0),
 			tags_received=dict(rhull=0,lhull=0))
 			player.loop_start()
@@ -380,25 +380,25 @@ try:
 		if code:
 			tag_received(str(code))
 		sleep(5) #wait for processes to end
-#        repeat_time=4
-        while newgame=='waiting':
-            LED_waiting(0.3)
-            sleep(1)
-#            if repeat_time>0: 
-#                repeat_time-=1
-#                if repeat>=3:
-#                    repeat=0
-#                    player.publish('game/ltserver','repeat')
-#                    print("Starting next game")
-#                    break
-            if newgame=='next':
-                newgame=='waiting'
-                print("Starting next game")
-                break
-            elif newgame=='exit':
-                print("Exiting...")
-                raise Exception
+		#repeat_time=4
+		while newgame=='waiting':
+			LED_waiting(0.3)
+			sleep(1)
+			#if repeat_time>0: 
+				#repeat_time-=1
+			#if repeat>=3:
+				#repeat=0
+				#player.publish('game/ltserver','repeat')
+				#print("Starting next game")
+				#break
+			if newgame=='next':
+				newgame=='waiting'
+				print("Starting next game")
+				break
+			elif newgame=='exit':
+				print("Exiting...")
+				raise Exception
 
 finally:
-    GPIO.cleanup()
-    player.disconnect()
+	GPIO.cleanup()
+	player.disconnect()
