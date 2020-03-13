@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 
+# Future development: change the client parameter to prompt on join to the server
+# so that players join and press a button to confirm their slot
+# i.e. circle = player 1, cross = player 2, etc
 CLIENT='1' #each player needs to have a different CLIENT number. 1,2,3,etc,
+# Future development: change this so that it is stored in a variables file on the local device.
+# For the the moment the IP address will be fixed, but this should be flexible
 LTSERVER='192.168.1.225' #insert IP address of server computer
 
 #---------------------
@@ -29,6 +34,7 @@ from subprocess import call
 import threading
 from datetime import datetime
 from py_irsend import irsend
+from approxend.input.selectbinder import ControllerResource
 
 GPIO.setmode(GPIO.BCM)
 TRIGGER=23
@@ -310,14 +316,15 @@ def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Ta
 
     #lcd.lcd_display_string("    starting    ",1)
     #lcd.lcd_display_string(str(message),2)
-    sleep(2)
+	sleep(2)
     #lcd.lcd_display_string(str(message),1)
-    for i in range(game_wait,-1,-1):
+	for i in range(game_wait,-1,-1):
         #lcd.lcd_display_string("       0"+str(i)+"       ",1)
-        if(i==2):
-            sound('begingame')
-        sleep(1)
+		if(i==2):
+			sound('begingame')
+		sleep(1)
 
+		
 #----------------------------------------------------------
 #                        MAIN
 #----------------------------------------------------------
@@ -345,27 +352,34 @@ try:
     connected=False
 
     while True:
-        stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,
-            ammo=0,tags_given=dict(rhull=0,lhull=0),
-            tags_received=dict(rhull=0,lhull=0))
-        player.loop_start()
-        player.publish('game/ltserver','ready')
+        try:
+            stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,ammo=0,
+			tags_given=dict(rhull=0,lhull=0),
+			tags_received=dict(rhull=0,lhull=0))
+			player.loop_start()
+			player.publish('game/ltserver','ready')
+			with ControllerResource() as joystick:
+				while joystick.connected:
+					joystick.check_presses()
+					if joystick.presses.cross:
+							player_reload()
+						elif joystick.presses.l1:
+							shoot()
 
-        while not game_in_progress:
-            pass #wait for start game message
+	while not game_in_progress:
+		pass #wait for start game message
 
-        initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
-        timer_thread=threading.Thread(target=update_display)
-        timer_thread.daemon=True
-        timer_thread.start()
+		initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
+		timer_thread=threading.Thread(target=update_display)
+		timer_thread.daemon=True
+		timer_thread.start()
 
-        while game_in_progress:
-            sleep(.1)
-            #code=lirc.nextcode()
-            if code:
-                tag_received(str(code))
-
-        sleep(5) #wait for processes to end
+	while game_in_progress:
+		sleep(.1)
+		#code=lirc.nextcode()
+		if code:
+			tag_received(str(code))
+		sleep(5) #wait for processes to end
 #        repeat_time=4
         while newgame=='waiting':
             LED_waiting(0.3)
