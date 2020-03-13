@@ -230,89 +230,89 @@ def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Ta
     global stats
     global game_wait
 
-    if(game_mode=='Classic'):
-        maxAmmo = 10
-        if(end_type!='Time'):
-            maxHealth = end_value
-        else:
-            maxHealth = 10000
-        maxDeaths = 1
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 0.3
-        message = "    Classic     "
+	if(game_mode=='Classic'):
+		maxAmmo = 10
+		if(end_type!='Time'):
+			maxHealth = end_value
+		else:
+			maxHealth = 10000
+		maxDeaths = 1
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 0.3
+		message = "    Classic     "
 
-    if(game_mode=='Showdown'):
-        maxAmmo = 10
-        if(end_type!='Time'):
-            maxHealth = end_value
-        else:
-            maxHealth = 10000
-        maxDeaths = 1
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 0.3
-        message = "    Showdown    "
+	if(game_mode=='Showdown'):
+		maxAmmo = 10
+		if(end_type!='Time'):
+			maxHealth = end_value
+		else:
+			maxHealth = 10000
+		maxDeaths = 1
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 0.3
+		message = "    Showdown    "
 
-    elif(game_mode=='Soldier'):
-        maxHealth = 12
-        maxAmmo = 10
-        if(end_type!='Time'):
-            maxDeaths = end_value
-        else:
-            maxDeaths = 100000
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 0.1
-        message = "   Overwatch    "
+	elif(game_mode=='Soldier'):
+		maxHealth = 12
+		maxAmmo = 10
+		if(end_type!='Time'):
+			maxDeaths = end_value
+		else:
+			maxDeaths = 100000
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 0.1
+		message = "   Overwatch    "
 
-    elif(game_mode=='Tank'):
-        maxHealth = 20
-        maxAmmo = 25
-        if(end_type!='Time'):
-            maxDeaths = end_value
-        else:
-            maxDeaths = 100000
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 0.01
-        message = "   Overwatch    "
+	elif(game_mode=='Tank'):
+		maxHealth = 20
+		maxAmmo = 25
+		if(end_type!='Time'):
+			maxDeaths = end_value
+		else:
+			maxDeaths = 100000
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 0.01
+		message = "   Overwatch    "
 
-    elif(game_mode=='Sniper'):
-        maxHealth = 10
-        maxAmmo = 1
-        if(end_type!='Time'):
-            maxDeaths = end_value
-        else:
-            maxDeaths = 100000
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 1.0
-        message = "   Overwatch    "
+	elif(game_mode=='Sniper'):
+		maxHealth = 10
+		maxAmmo = 1
+		if(end_type!='Time'):
+			maxDeaths = end_value
+		else:
+			maxDeaths = 100000
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 1.0
+		message = "   Overwatch    "
 
-    elif(game_mode=='GunGame'):
-        maxHealth = 1
-        maxAmmo = 1
-        if(end_type!='Time'):
-            maxDeaths = end_value
-        else:
-            maxDeaths = 100000
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 3.0
-        message = "    Gun Game    "
+	elif(game_mode=='GunGame'):
+		maxHealth = 1
+		maxAmmo = 1
+		if(end_type!='Time'):
+			maxDeaths = end_value
+		else:
+			maxDeaths = 100000
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 3.0
+		message = "    Gun Game    "
 
-    elif(game_mode=='LaserMaster'):
-        maxHealth = 7
-        maxAmmo = 7
-        if(end_type!='Time'):
-            maxDeaths = end_value
-        else:
-            maxDeaths = 100000
-        stats['health'] = maxHealth
-        stats['ammo'] = maxAmmo
-        waitTime = 2.0
-        message = "  Laser Master  "
+	elif(game_mode=='LaserMaster'):
+		maxHealth = 7
+		maxAmmo = 7
+		if(end_type!='Time'):
+			maxDeaths = end_value
+		else:
+			maxDeaths = 100000
+		stats['health'] = maxHealth
+		stats['ammo'] = maxAmmo
+		waitTime = 2.0
+		message = "  Laser Master  "
 
 	#lcd.lcd_display_string("    starting    ",1)
 	#lcd.lcd_display_string(str(message),2)
