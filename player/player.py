@@ -342,40 +342,40 @@ try:
 			player.loop_start()
 			player.publish('game/ltserver','ready')
 
-		while not game_in_progress:
-			pass #wait for start game message
-			initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
+	while not game_in_progress:
+		pass #wait for start game message
+		initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
 
-		while game_in_progress:
-			with ControllerResource() as joystick:
-				while joystick.connected:
-					joystick.check_presses()
-					if joystick.presses.cross:
-						player_reload()
-					elif joystick.presses.l1:
-						shoot()
-			#code=lirc.nextcode()
-			if code:
-				tag_received(str(code))
-			sleep(5) #wait for processes to end
-			#repeat_time=4
-			while newgame=='waiting':
-				LED_waiting(0.3)
-				sleep(1)
-				#if repeat_time>0: 
-					#repeat_time-=1
-				#if repeat>=3:
-					#repeat=0
-					#player.publish('game/ltserver','repeat')
-					#print("Starting next game")
-					#break
-				if newgame=='next':
-					newgame=='waiting'
-					print("Starting next game")
-					break
-				elif newgame=='exit':
-					print("Exiting...")
-					raise Exception
+	while game_in_progress:
+		with ControllerResource() as joystick:
+			while joystick.connected:
+				joystick.check_presses()
+				if joystick.presses.cross:
+					player_reload()
+				elif joystick.presses.l1:
+					shoot()
+		#code=lirc.nextcode()
+		if code:
+			tag_received(str(code))
+		sleep(5) #wait for processes to end
+		#repeat_time=4
+		while newgame=='waiting':
+			LED_waiting(0.3)
+			sleep(1)
+			#if repeat_time>0: 
+				#repeat_time-=1
+			#if repeat>=3:
+				#repeat=0
+				#player.publish('game/ltserver','repeat')
+				#print("Starting next game")
+				#break
+			if newgame=='next':
+				newgame=='waiting'
+				print("Starting next game")
+				break
+			elif newgame=='exit':
+				print("Exiting...")
+				raise Exception
 
 	except IOError:
 		# No joystick found, wait for a bit before trying again
