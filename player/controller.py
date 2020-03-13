@@ -15,6 +15,7 @@ class controller():
 			try:
 				with ControllerResource() as joystick:
 					while joystick.connected:
+						print('Found a joystick and connected')
 						joystick.check_presses()
 						#if joystick.has_presses:
 							#print(joystick.presses)
@@ -26,7 +27,6 @@ class controller():
               #print('Connection to joystick lost')
 				
 if __name__ == "__main__":
-	print('Found a joystick and connected')
 	#print(joystick.controls)
 	main()
 	
