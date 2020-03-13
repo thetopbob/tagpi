@@ -223,12 +223,12 @@ def dead(return_topic):
     #lcd.lcd_display_string("                ",2)
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
-    global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
-    global maxHealth           #and either timed or life count number.
-    global maxDeaths
-    global waitTime
-    global stats
-    global game_wait
+	global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
+	global maxHealth           #and either timed or life count number.
+	global maxDeaths
+	global waitTime
+	global stats
+	global game_wait
 
 	if(game_mode=='Classic'):
 		maxAmmo = 10
