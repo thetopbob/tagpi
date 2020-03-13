@@ -362,9 +362,9 @@ try:
 				while joystick.connected:
 					joystick.check_presses()
 					if joystick.presses.cross:
-							player_reload()
-						elif joystick.presses.l1:
-							shoot()
+						player_reload()
+					elif joystick.presses.l1:
+						shoot()
 
 	while not game_in_progress:
 		pass #wait for start game message
