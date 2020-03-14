@@ -4,3 +4,4 @@ paho-mqtt
 RPi.GPIO
 smbus
 matplotlib
+approxeng.input
