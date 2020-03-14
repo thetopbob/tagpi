@@ -335,11 +335,12 @@ try:
 
 		while not game_in_progress:
 			pass #wait for start game message
-			
+
 		initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
 
 		while game_in_progress:
-			Try:
+			sleep(0.1)
+			try:
 				with ControllerResource() as joystick:
 					while joystick.connected:
 						joystick.check_presses()
