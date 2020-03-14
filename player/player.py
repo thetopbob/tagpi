@@ -218,10 +218,10 @@ def dead(return_topic):
     sleep(1)
     player.publish(return_topic,'dead')
 
-def stop_motors()
+def stop_motors():
 	pass
 
-def motor_forward()
+def motor_forward():
 	pass
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
