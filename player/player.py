@@ -326,47 +326,44 @@ try:
 			print('LTServer must be started first...')
 			LED_waiting(0.3)
 			sleep(1)
-	
 	connected=False
 
 	while True:
-			stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,ammo=0,
-					   tags_given=dict(rhull=0,lhull=0),
-					   tags_received=dict(rhull=0,lhull=0))
-			player.loop_start()
-			player.publish('game/ltserver','ready')
+		stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,ammo=0,tags_given=dict(rhull=0,lhull=0),tags_received=dict(rhull=0,lhull=0))
+		player.loop_start()
+		player.publish('game/ltserver','ready')
 
-	while not game_in_progress:
-		pass #wait for start game message
+		while not game_in_progress:
+			pass #wait for start game message
 			
-	initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
+		initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
 
-	while game_in_progress:
-		Try:
-			with ControllerResource() as joystick:
-				while joystick.connected:
-					joystick.check_presses()
-					if joystick.presses.cross:
-						player_reload()
-					elif joystick.presses.l1:
-						shoot()
+		while game_in_progress:
+			Try:
+				with ControllerResource() as joystick:
+					while joystick.connected:
+						joystick.check_presses()
+						if joystick.presses.cross:
+							player_reload()
+						elif joystick.presses.l1:
+							shoot()
 			""" the following section needs to be threaded, along with the joystick section """
-			code=lirc.nextcode()
-			if code:
-				tag_received(str(code))
-		sleep(5) #wait for processes to end
+				code=lirc.nextcode()
+				if code:
+					tag_received(str(code))
+			sleep(5) #wait for processes to end
 		
-	while newgame=='waiting':
-		LED_waiting(0.3)
-		sleep(1)
+		while newgame=='waiting':
+			LED_waiting(0.3)
+			sleep(1)
 
-		if newgame=='next':
-			newgame=='waiting'
-			print("Starting next game")
-			break
-		elif newgame=='exit':
-			print("Exiting...")
-			raise Exception
+			if newgame=='next':
+				newgame=='waiting'
+				print("Starting next game")
+				break
+			elif newgame=='exit':
+				print("Exiting...")
+				raise Exception
 
 except IOError:
 		# No joystick found, wait for a bit before trying again
