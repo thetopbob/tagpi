@@ -33,7 +33,7 @@ from subprocess import call
 import threading
 from datetime import datetime
 from py_irsend import irsend
-from approxend.input.selectbinder import ControllerResource
+from approxeng.input.selectbinder import ControllerResource
 
 GPIO.setmode(GPIO.BCM)
 """ Suggest removing trigger and reload when controller is working """
