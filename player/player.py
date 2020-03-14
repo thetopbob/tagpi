@@ -36,10 +36,9 @@ from py_irsend import irsend
 from approxend.input.selectbinder import ControllerResource
 
 GPIO.setmode(GPIO.BCM)
-""" Suggest removing when controller is working
+""" Suggest removing trigger and reload when controller is working """
 TRIGGER=23
 RELOAD=12
-"""
 RED=20
 GREEN=21
 BLUE=26
@@ -47,10 +46,9 @@ newgame='waiting'
 game_wait=3
 connected=False
 
-""" Suggest reviewing this for later removal when the controller is working
+""" Suggest reviewing trigger and reload for later removal when the controller is working """
 GPIO.setup(TRIGGER, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(RELOAD, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-"""
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
@@ -109,43 +107,43 @@ def sound(event):
 	sound_thread.start()
 
 def sound_func(event):
-    #1 = LaserSound,2 = Not used,3 = Start Game
-    #4 = Dead Tune,5 = Not used,6 = Error,7 = You got hit
-    #8 = You hit them,9 = End Game,10 = Reloading
-    if(event=='shoot'):
-        sound_class.play(1)
-    elif(event=='tag_received'):
-        sound_class.play(7)
-    elif(event=='tag_given'):
-        sound_class.play(8)
-    elif(event=='error'):
-        sound_class.play(6)
-    elif(event=='dead'):
-        sound_class.play(4)
-    elif(event=='begingame'):
-        sound_class.play(3)
-    elif(event=='endgame'):
-        sound_class.play(9)
-    elif(event=='reloading'):
-        sound_class.play(10)
-    else:
-        pass
+	#1 = LaserSound,2 = Not used,3 = Start Game
+	#4 = Dead Tune,5 = Not used,6 = Error,7 = You got hit
+	#8 = You hit them,9 = End Game,10 = Reloading
+	if(event=='shoot'):
+		sound_class.play(1)
+	elif(event=='tag_received'):
+		sound_class.play(7)
+	elif(event=='tag_given'):
+		sound_class.play(8)
+	elif(event=='error'):
+		sound_class.play(6)
+	elif(event=='dead'):
+		sound_class.play(4)
+	elif(event=='begingame'):
+		sound_class.play(3)
+	elif(event=='endgame'):
+		sound_class.play(9)
+	elif(event=='reloading'):
+		sound_class.play(10)
+	else:
+		pass
 
 def LED(color,delay):
-    LED_thread=threading.Thread(target=LED_func,args=[color,delay])
-    LED_thread.daemon=True
-    LED_thread.start()
+	LED_thread=threading.Thread(target=LED_func,args=[color,delay])
+	LED_thread.daemon=True
+	LED_thread.start()
 
 def LED_func(color,delay):
-    GPIO.output(color,GPIO.HIGH) 
-    sleep(delay)
-    GPIO.output(color,GPIO.LOW) 
+	GPIO.output(color,GPIO.HIGH) 
+	sleep(delay)
+	GPIO.output(color,GPIO.LOW) 
 
 def LED_waiting(delay):
-    for color in [GREEN,BLUE,RED]:
-        GPIO.output(color,GPIO.HIGH)
-        sleep(delay)
-        GPIO.output(color,GPIO.LOW)
+	for color in [GREEN,BLUE,RED]:
+		GPIO.output(color,GPIO.HIGH)
+		sleep(delay)
+		GPIO.output(color,GPIO.LOW)
 
 def shoot(pin):
     global maxDeaths, stats
@@ -162,21 +160,21 @@ def shoot(pin):
         LED(GREEN,0.3)
 
 def tag_received(code):
-    global stats
-    player.publish('game/ltserver',CLIENT) #tell server I  was tagged
-    from_player=code[-3:-2] #who was the tagger
-    print("Received tag from player"+ str(from_player))
-    return_topic='game/players/'+str(from_player) #who to reply to
-    player.publish(return_topic,CLIENT) #reply to tagger
-    tag_location=randint(0,len(stats['tags_received'])-1) #random 
-    tmp=list(stats['tags_received'])[tag_location]
-    stats['tags_received'][tmp]+=1
-    stats['health']-=1
-    if(stats['health']<=0):
-        dead(return_topic)
-    else:
-        sound('tag_received')
-        LED(RED,1)
+	global stats
+	player.publish('game/ltserver',CLIENT) #tell server I  was tagged
+	from_player=code[-3:-2] #who was the tagger
+	print("Received tag from player"+ str(from_player))
+	return_topic='game/players/'+str(from_player) #who to reply to
+	player.publish(return_topic,CLIENT) #reply to tagger
+	tag_location=randint(0,len(stats['tags_received'])-1) #random 
+	tmp=list(stats['tags_received'])[tag_location]
+	stats['tags_received'][tmp]+=1
+	stats['health']-=1
+	if(stats['health']<=0):
+		dead(return_topic)
+	else:
+		sound('tag_received')
+		LED(RED,1)
 
 def tag_given():
     global stats
@@ -189,15 +187,13 @@ def tag_given():
     LED(BLUE,1)
 
 def player_reload(pin):
-    global stats,game_in_progress#,repeat
+    global stats,game_in_progress
     if(stats['health']<=0):
         sound('error')
     else:
         sound('reloading')
         stats['ammo'] = maxAmmo
         LED(GREEN,0.5)
-#    if(game_in_progress == False):
-#        repeat+=1
 
 def dead(return_topic):
     global stats,game_in_progress
@@ -319,7 +315,6 @@ try:
 	player.on_disconnect=onDisconnect
 	sound_class = ltsounds.Buzzer()
 	game_in_progress=False
-	#repeat=0
 	GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
 	GPIO.add_event_detect(RELOAD,GPIO.RISING,player_reload,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
 
@@ -331,10 +326,10 @@ try:
 			print('LTServer must be started first...')
 			LED_waiting(0.3)
 			sleep(1)
+	
 	connected=False
 
 	while True:
-		try:
 			stats=dict(player=CLIENT,shots_fired=0,kills=0,deaths=0,health=0,ammo=0,
 					   tags_given=dict(rhull=0,lhull=0),
 					   tags_received=dict(rhull=0,lhull=0))
@@ -343,38 +338,35 @@ try:
 
 		while not game_in_progress:
 			pass #wait for start game message
-			initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
+			
+		initialize(gvars_dict['game_mode'],gvars_dict['end_type'],int(gvars_dict['end_value']))
 
 		while game_in_progress:
-			with ControllerResource() as joystick:
-				while joystick.connected:
-					joystick.check_presses()
-					if joystick.presses.cross:
-						player_reload()
-					elif joystick.presses.l1:
-						shoot()
-			#code=lirc.nextcode()
-			if code:
-				tag_received(str(code))
+			Try:
+				with ControllerResource() as joystick:
+					while joystick.connected:
+						joystick.check_presses()
+						if joystick.presses.cross:
+							player_reload()
+						elif joystick.presses.l1:
+							shoot()
+			""" the following section needs to be threaded, along with the joystick section """
+				code=lirc.nextcode()
+				if code:
+					tag_received(str(code))
 			sleep(5) #wait for processes to end
-			#repeat_time=4
-			while newgame=='waiting':
-				LED_waiting(0.3)
-				sleep(1)
-				#if repeat_time>0: 
-					#repeat_time-=1
-				#if repeat>=3:
-					#repeat=0
-					#player.publish('game/ltserver','repeat')
-					#print("Starting next game")
-					#break
-				if newgame=='next':
-					newgame=='waiting'
-					print("Starting next game")
-					break
-				elif newgame=='exit':
-					print("Exiting...")
-					raise Exception
+		
+		while newgame=='waiting':
+			LED_waiting(0.3)
+			sleep(1)
+
+			if newgame=='next':
+				newgame=='waiting'
+				print("Starting next game")
+				break
+			elif newgame=='exit':
+				print("Exiting...")
+				raise Exception
 
 	except IOError:
 		# No joystick found, wait for a bit before trying again
