@@ -348,11 +348,17 @@ try:
 							player_reload()
 						elif joystick.presses.l1:
 							shoot()
-			""" the following section needs to be threaded, along with the joystick section """
+				# the following section needs to be threaded, along with the joystick section
 				code=lirc.nextcode()
 				if code:
 					tag_received(str(code))
-			sleep(5) #wait for processes to end
+
+			except IOError:
+			# No joystick found, wait for a bit before trying again
+				print('Unable to find any joysticks. Trying again in 3 seconds...')
+				sleep(3.0)
+		
+		sleep(5) #wait for processes to end
 		
 		while newgame=='waiting':
 			LED_waiting(0.3)
@@ -365,11 +371,6 @@ try:
 			elif newgame=='exit':
 				print("Exiting...")
 				raise Exception
-
-except IOError:
-		# No joystick found, wait for a bit before trying again
-		print('Unable to find any joysticks. Trying again in 3 seconds...')
-		sleep(3.0)
 
 finally:
 	GPIO.cleanup()
