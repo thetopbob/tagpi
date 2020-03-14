@@ -31,7 +31,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 from random import randint
 import ast
-import lirc
+#import lirc
 import ltsounds
 from subprocess import call
 import threading
