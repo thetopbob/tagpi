@@ -9,16 +9,20 @@ CLIENT='1' #each player needs to have a different CLIENT number. 1,2,3,etc,
 LTSERVER='192.168.1.225' #insert IP address of server computer
 
 #---------------------
-#BUZZER:     GPIO5
-#TRIGGER:    GPIO23
-#RELOAD:     GPIO12
-#IR_TX:      GPIO22
-#IR_RX       GPIO18         Notes for wiring
-#RED:        GPIO20
-#GREEN:      GPIO21
-#BLUE:       GPIO26
-#I2C_SDA:    GPIO2
-#I2C_SCL:    GPIO3
+#BUZZER:    	GPIO5
+#TRIGGER:   	GPIO
+#RELOAD:    	GPIO
+#IR_TX:     	GPIO22
+#IR_RX      	GPIO18         Notes for wiring
+#RED:       	GPIO20
+#GREEN:     	GPIO21
+#BLUE:      	GPIO26
+#I2C_SDA:   	GPIO2
+#I2C_SCL:   	GPIO3
+#MOTOR_A_FWD:	GPIO23
+#MOTOR_A_BK:	GPIO24
+#MOTOR_B_FWD:	GPIO19
+#MOTOR_B_BK:	GPIO16
 #---------------------
 import paho.mqtt.client as mqtt
 from os import _exit
@@ -27,7 +31,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 from random import randint
 import ast
-# import lirc
+import lirc
 import ltsounds
 from subprocess import call
 import threading
@@ -36,12 +40,17 @@ from py_irsend import irsend
 from approxeng.input.selectbinder import ControllerResource
 
 GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 """ Suggest removing trigger and reload when controller is working """
-TRIGGER=23
+TRIGGER=6
 RELOAD=12
 RED=20
 GREEN=21
 BLUE=26
+MOTORAFWD=23
+MOTORABK=24
+MOTORBFWD=19
+MOTORBBK=16
 newgame='waiting'
 game_wait=3
 connected=False
@@ -52,6 +61,10 @@ GPIO.setup(RELOAD, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
+GPIO.setup(MOTORAFWD, GPIO.OUT)
+GPIO.setup(MOTORABK, GPIO.OUT)
+GPIO.setup(MOTORBFWD, GPIO.OUT)
+GPIO.setup(MOTORBBK, GPIO.OUT)
 
 def onConnect(client,userdata,flags,rc):
 	if(rc==0): print("Connected")
@@ -152,7 +165,7 @@ def shoot(pin):
     elif(stats['ammo']==0):
         LED(BLUE,1)
     elif(stats['ammo']>=1):
-        irsend.send_once('ltag', [gvars_dict['game_mode']+CLIENT]) #New line that utilises the py_irsend module
+        irsend.send_once('ltag', [gvars_dict['game_mode']+CLIENT]) #Use the py_irsend module to send a specific IR code based on the client value and the game mode
         stats['shots_fired']+=1
         stats['ammo']-=1
         print("shot fired") #uncommented this line so that we can check logs when shooting 
@@ -204,6 +217,12 @@ def dead(return_topic):
         LED(RED,3)
     sleep(1)
     player.publish(return_topic,'dead')
+
+def stop_motors()
+	pass
+
+def motor_forward()
+	pass
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
 	global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
@@ -315,8 +334,8 @@ try:
 	player.on_disconnect=onDisconnect
 	sound_class = ltsounds.Buzzer()
 	game_in_progress=False
-	GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
-	GPIO.add_event_detect(RELOAD,GPIO.RISING,player_reload,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
+	#GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
+	#GPIO.add_event_detect(RELOAD,GPIO.RISING,player_reload,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
 
 	while not connected:
 		try:
@@ -343,15 +362,15 @@ try:
 			try:
 				with ControllerResource() as joystick:
 					while joystick.connected:
+						# the following section needs to be threaded, along with the joystick section
+						code=lirc.nextcode()
+						if code:
+								tag_received(str(code))
 						joystick.check_presses()
 						if joystick.presses.cross:
 							player_reload()
 						elif joystick.presses.l1:
 							shoot()
-				# the following section needs to be threaded, along with the joystick section
-				code=lirc.nextcode()
-				if code:
-					tag_received(str(code))
 
 			except IOError:
 			# No joystick found, wait for a bit before trying again
