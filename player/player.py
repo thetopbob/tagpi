@@ -133,6 +133,12 @@ def onDisconnect(client,userdata,message):
 	print("Disconnected from broker")
 	_exit(0)
 
+"""
+inserted the following to help debug MQTT events
+"""
+def on_log(client, userdata, level, buf):
+    print("log: ",buf)
+
 def sound(event):
 	sound_thread=threading.Thread(target=sound_func,args=[event])
 	sound_thread.daemon=True
@@ -399,10 +405,9 @@ try:
 	player.on_connect=onConnect
 	player.on_message=onMessage
 	player.on_disconnect=onDisconnect
+	player.on_log=on_log
 	sound_class = ltsounds.Buzzer()
 	game_in_progress=False
-	#GPIO.add_event_detect(TRIGGER,GPIO.RISING,shoot,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
-	#GPIO.add_event_detect(RELOAD,GPIO.RISING,player_reload,bouncetime=400) #commented out this line as it will be redundant due to use of a controller
 
 	while not connected:
 		try:
