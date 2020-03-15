@@ -426,6 +426,7 @@ try:
 
 		while game_in_progress:
 			sleep(0.1)
+			print('Game Starting!')
 			try:
 				with ControllerResource() as joystick:
 					while joystick.connected:
