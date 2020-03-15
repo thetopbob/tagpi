@@ -29,7 +29,6 @@ from os import _exit
 from sys import exit
 from time import sleep
 import RPi.GPIO as GPIO
-from gpiozero import PWMOutputDevice
 from random import randint
 import ast
 #import lirc
@@ -55,10 +54,9 @@ MOTORBFWD=19
 MOTORBBK=16
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
-forwardLeft = PWMOutputDevice(MOTORAFWD, True, 0, 1000)
-reverseLeft = PWMOutputDevice(MOTORABK, True, 0, 1000)
-forwardRight = PWMOutputDevice(MOTORBFWD, True, 0, 1000)
-reverseRight = PWMOutputDevice(MOTORBBK, True, 0, 1000)
+Frequency = 20
+DutyCycle = 30
+Stop = 0
 
 # Variables required for the game start
 newgame='waiting'
@@ -75,6 +73,16 @@ GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
 GPIO.setup(MOTORBFWD, GPIO.OUT)
 GPIO.setup(MOTORBBK, GPIO.OUT)
+
+forwardLeft = GPIO.PWM(MOTORAFWD, Frequency)
+reverseLeft = GPIO.PWM(MOTORABK, Frequency)
+forwardRight = GPIO.PWM(MOTORBFWD, Frequency)
+reverseRight = GPIO.PWM(MOTORBBK, Frequency)
+
+forwardLeft.start(Stop)
+reverseLeft.start(Stop)
+forwardRight.start(Stop)
+reverseRight.start(Stop)
 
 def onConnect(client,userdata,flags,rc):
 	if(rc==0): print("Connected")
@@ -229,59 +237,58 @@ def dead(return_topic):
     player.publish(return_topic,'dead')
 
 def motor_stop():
-	forwardLeft.value = 0
-	forwardRight.value = 0
-	reverseLeft.value = 0
-	reverseRight.value = 0
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(Stop)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def motor_forward():
-	forwardLeft.value = 0
-	forwardRight.value = 1
-	reverseLeft.value = 0
-	reverseRight.value = 1
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(Stop)
+	reverseRight.ChangeDutyCycle(DutyCycle)
 
 def spin_right():
-	forwardLeft.value = 0
-	forwardRight.value = 0
-	reverseLeft.value = 1
-	reverseRight.value = 1
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(DutyCycle)
+	reverseRight.ChangeDutyCycle(DutyCycle)
 
 def spin_left():
-	forwardLeft.value = 0
-	forwardRight.value = 1
-	reverseLeft.value = 1
-	reverseRight.value = 0
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(DutyCycle)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def reverseDrive():
-	forwardLeft.value = 0
-	forwardRight.value = 0
-	reverseLeft.value = 1
-	reverseRight.value = 1
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(DutyCycle)
+	reverseRight.ChangeDutyCycle(DutyCycle)
 
 def forwardLeftDrive():
-	forwardLeft.value = 0.2
-	forwardRight.value = 0.8
-	reverseLeft.value = 0
-	reverseRight.value = 0
+	forwardLeft.ChangeDutyCycle(DutyCycle)
+	forwardRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(Stop)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def forwardRightDrive():
-	forwardLeft.value = 0.8
-	forwardRight.value = 0.2
-	reverseLeft.value = 0
-	reverseRight.value = 0
+	forwardLeft.ChangeDutyCycle(DutyCycle)
+	forwardRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(Stop)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def reverseLeftDrive():
-	forwardLeft.value = 0
-	forwardRight.value = 0
-	reverseLeft.value = 0.2
-	reverseRight.value = 0.8
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.value = ChangeDutyCycle(DutyCycle)
+	reverseRight.value = ChangeDutyCycle(DutyCycle)
 
 def reverseRightdrive():
-	forwardLeft.value = 0
-	forwardRight.value = 0
-	reverseLeft.value = 0.8
-	reverseRight.value = 0.2
-
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(DutyCycle)
+	reverseRight.ChangeDutyCycle(DutyCycle)
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
 	global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
@@ -430,6 +437,10 @@ try:
 							player_reload()
 						elif joystick.presses.l1:
 							shoot()
+						elif joystick.presses.dup:
+							motor_forward()
+							sleep(1)
+							motor_stop
 
 			except IOError:
 			# No joystick found, wait for a bit before trying again

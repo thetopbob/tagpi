@@ -3,6 +3,8 @@
 #pillow
 paho-mqtt
 RPi.GPIO
+gpiozero
 smbus
 matplotlib
 approxeng.input
+py_irsend
