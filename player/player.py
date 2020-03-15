@@ -6,7 +6,7 @@
 CLIENT='1' #each player needs to have a different CLIENT number. 1,2,3,etc,
 # Future development: change this so that it is stored in a variables file on the local device.
 # For the the moment the IP address will be fixed, but this should be flexible
-LTSERVER='192.168.1.225' #insert IP address of server computer
+LTSERVER='192.168.1.243' #insert IP address of server computer
 
 #---------------------
 #BUZZER:    	GPIO5
