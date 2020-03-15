@@ -1,5 +1,6 @@
-pygubu
-pillow
+#the following are required for the server install:
+#pygubu
+#pillow
 paho-mqtt
 RPi.GPIO
 smbus

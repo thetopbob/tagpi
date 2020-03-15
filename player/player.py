@@ -29,6 +29,7 @@ from os import _exit
 from sys import exit
 from time import sleep
 import RPi.GPIO as GPIO
+from gpiozero import PWMOutputDevice
 from random import randint
 import ast
 #import lirc
@@ -47,10 +48,19 @@ RELOAD=12
 RED=20
 GREEN=21
 BLUE=26
+# Define what pins are required for the motors
 MOTORAFWD=23
 MOTORABK=24
 MOTORBFWD=19
 MOTORBBK=16
+# Initialise objects for H-Bridge PWM pins
+# Set initial duty cycle to 0 and frequency to 1000
+forwardLeft = PWMOutputDevice(MOTORAFWD, True, 0, 1000)
+reverseLeft = PWMOutputDevice(MOTORABK, True, 0, 1000)
+forwardRight = PWMOutputDevice(MOTORBFWD, True, 0, 1000)
+reverseRight = PWMOutputDevice(MOTORBBK, True, 0, 1000)
+
+# Variables required for the game start
 newgame='waiting'
 game_wait=3
 connected=False
@@ -218,11 +228,60 @@ def dead(return_topic):
     sleep(1)
     player.publish(return_topic,'dead')
 
-def stop_motors():
-	pass
+def motor_stop():
+	forwardLeft.value = 0
+	forwardRight.value = 0
+	reverseLeft.value = 0
+	reverseRight.value = 0
 
 def motor_forward():
-	pass
+	forwardLeft.value = 0
+	forwardRight.value = 1
+	reverseLeft.value = 0
+	reverseRight.value = 1
+
+def spin_right():
+	forwardLeft.value = 0
+	forwardRight.value = 0
+	reverseLeft.value = 1
+	reverseRight.value = 1
+
+def spin_left():
+	forwardLeft.value = 0
+	forwardRight.value = 1
+	reverseLeft.value = 1
+	reverseRight.value = 0
+
+def reverseDrive():
+	forwardLeft.value = 0
+	forwardRight.value = 0
+	reverseLeft.value = 1
+	reverseRight.value = 1
+
+def forwardLeftDrive():
+	forwardLeft.value = 0.2
+	forwardRight.value = 0.8
+	reverseLeft.value = 0
+	reverseRight.value = 0
+
+def forwardRightDrive():
+	forwardLeft.value = 0.8
+	forwardRight.value = 0.2
+	reverseLeft.value = 0
+	reverseRight.value = 0
+
+def reverseLeftDrive():
+	forwardLeft.value = 0
+	forwardRight.value = 0
+	reverseLeft.value = 0.2
+	reverseRight.value = 0.8
+
+def reverseRightdrive():
+	forwardLeft.value = 0
+	forwardRight.value = 0
+	reverseLeft.value = 0.8
+	reverseRight.value = 0.2
+
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
 	global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
