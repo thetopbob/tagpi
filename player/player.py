@@ -55,7 +55,8 @@ MOTORBBK=16
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
 Frequency = 20
-DutyCycle = 30
+DutyCycleA = 30
+DutyCycleB = 30
 Stop = 0
 
 # Variables required for the game start
@@ -244,51 +245,51 @@ def motor_stop():
 
 def motor_forward():
 	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(DutyCycle)
+	forwardRight.ChangeDutyCycle(DutyCycleA)
 	reverseLeft.ChangeDutyCycle(Stop)
-	reverseRight.ChangeDutyCycle(DutyCycle)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def spin_right():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycle)
-	reverseRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def spin_left():
 	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(DutyCycle)
-	reverseLeft.ChangeDutyCycle(DutyCycle)
+	forwardRight.ChangeDutyCycle(DutyCycleA)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
 	reverseRight.ChangeDutyCycle(Stop)
 
 def reverseDrive():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycle)
-	reverseRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def forwardLeftDrive():
-	forwardLeft.ChangeDutyCycle(DutyCycle)
-	forwardRight.ChangeDutyCycle(DutyCycle)
+	forwardLeft.ChangeDutyCycle(DutyCycleB)
+	forwardRight.ChangeDutyCycle(DutyCycleA)
 	reverseLeft.ChangeDutyCycle(Stop)
 	reverseRight.ChangeDutyCycle(Stop)
 
 def forwardRightDrive():
-	forwardLeft.ChangeDutyCycle(DutyCycle)
-	forwardRight.ChangeDutyCycle(DutyCycle)
+	forwardLeft.ChangeDutyCycle(DutyCycleB)
+	forwardRight.ChangeDutyCycle(DutyCycleA)
 	reverseLeft.ChangeDutyCycle(Stop)
 	reverseRight.ChangeDutyCycle(Stop)
 
 def reverseLeftDrive():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.value = ChangeDutyCycle(DutyCycle)
-	reverseRight.value = ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def reverseRightdrive():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycle)
-	reverseRight.ChangeDutyCycle(DutyCycle)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
 	global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
