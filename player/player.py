@@ -31,19 +31,19 @@ from time import sleep
 import RPi.GPIO as GPIO
 from random import randint
 import ast
-#import lirc
+import lirc
+from py_irsend import irsend
 import ltsounds
 from subprocess import call
 import threading
 from datetime import datetime
-from py_irsend import irsend
 from approxeng.input.selectbinder import ControllerResource
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 """ Suggest removing trigger and reload when controller is working """
-TRIGGER=6
-RELOAD=12
+#TRIGGER=6
+#RELOAD=12
 RED=20
 GREEN=21
 BLUE=26
@@ -65,8 +65,8 @@ game_wait=3
 connected=False
 
 """ Suggest reviewing trigger and reload for later removal when the controller is working """
-GPIO.setup(TRIGGER, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-GPIO.setup(RELOAD, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#GPIO.setup(TRIGGER, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+#GPIO.setup(RELOAD, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
@@ -136,7 +136,7 @@ def onDisconnect(client,userdata,message):
 """
 inserted the following to help debug MQTT events
 """
-def on_log(client, userdata, level, buf):
+def onLog(client, userdata, level, buf):
     print("log: ",buf)
 
 def sound(event):
@@ -217,7 +217,7 @@ def tag_received(code):
 def tag_given():
     global stats
     print("You tagged another player")
-    tag_location=randint(0,len(stats['tags_given'])-1) #random sensor
+    tag_location=randint(0,len(stats['tags_given'])-1) #random sensor - this needs to be updated to pick up if sensor 1 or 2
     tmp=list(stats['tags_given'])[tag_location]
     stats['tags_given'][tmp]+=1
     stats['kills']+=1
@@ -267,31 +267,7 @@ def spin_left():
 	reverseLeft.ChangeDutyCycle(DutyCycleB)
 	reverseRight.ChangeDutyCycle(Stop)
 
-def reverseDrive():
-	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycleB)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
-
-def forwardLeftDrive():
-	forwardLeft.ChangeDutyCycle(DutyCycleB)
-	forwardRight.ChangeDutyCycle(DutyCycleA)
-	reverseLeft.ChangeDutyCycle(Stop)
-	reverseRight.ChangeDutyCycle(Stop)
-
-def forwardRightDrive():
-	forwardLeft.ChangeDutyCycle(DutyCycleB)
-	forwardRight.ChangeDutyCycle(DutyCycleA)
-	reverseLeft.ChangeDutyCycle(Stop)
-	reverseRight.ChangeDutyCycle(Stop)
-
-def reverseLeftDrive():
-	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycleB)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
-
-def reverseRightdrive():
+def motor_reverse():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
 	reverseLeft.ChangeDutyCycle(DutyCycleB)
@@ -405,7 +381,7 @@ try:
 	player.on_connect=onConnect
 	player.on_message=onMessage
 	player.on_disconnect=onDisconnect
-	player.on_log=on_log
+	player.on_log=onLog
 	sound_class = ltsounds.Buzzer()
 	game_in_progress=False
 
