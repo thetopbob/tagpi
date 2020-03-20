@@ -6,7 +6,7 @@
 CLIENT='1' #each player needs to have a different CLIENT number. 1,2,3,etc,
 # Future development: change this so that it is stored in a variables file on the local device.
 # For the the moment the IP address will be fixed, but this should be flexible
-LTSERVER='192.168.1.243' #insert IP address of server computer
+LTSERVER='192.168.1.161' #insert IP address of server computer
 
 #---------------------
 #BUZZER:    	GPIO5
@@ -134,10 +134,15 @@ def onDisconnect(client,userdata,message):
 	_exit(0)
 
 """
+-------------------------------------------------------------
 inserted the following to help debug MQTT events
+-------------------------------------------------------------
 """
 def onLog(client, userdata, level, buf):
     print("log: ",buf)
+"""
+-------------------------------------------------------------
+"""
 
 def sound(event):
 	sound_thread=threading.Thread(target=sound_func,args=[event])
@@ -409,22 +414,27 @@ try:
 			sleep(0.1)
 			print('Game Starting!')
 			try:
+				code=lirc.nextcode()
+					if code:
+						tag_received(str(code))
+						
 				with ControllerResource() as joystick:
 					while joystick.connected:
-						# the following section needs to be threaded, along with the joystick section
-						code=lirc.nextcode()
-						if code:
-								tag_received(str(code))
+						ddown_held, dup_held, dleft_held, dright_held, circle_held, cross_held = joystick['ddown','dup','dleft','dright','circle','cross']
+						if dup_held is not None:
+							motor_forward(dup_held)
+						if ddown_held is not None:
+							motor_reverse(ddown_held)
+						if dleft_held is not None:
+							spin_left(dleft_held)
+						if dright_held is not None:
+							spin_right(dright_held)
 						joystick.check_presses()
-						if joystick.presses.cross:
+						if joystick.presses.circle:
 							player_reload()
 						elif joystick.presses.l1:
 							shoot()
-						elif joystick.presses.dup:
-							motor_forward()
-							sleep(1)
-							motor_stop
-
+			
 			except IOError:
 			# No joystick found, wait for a bit before trying again
 				print('Unable to find any joysticks. Trying again in 3 seconds...')
