@@ -415,8 +415,8 @@ try:
 			print('Game Starting!')
 			try:
 				code=lirc.nextcode()
-					if code:
-						tag_received(str(code))
+				if code:
+					tag_received(str(code))
 						
 				with ControllerResource() as joystick:
 					while joystick.connected:
