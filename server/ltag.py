@@ -60,10 +60,16 @@ def onDisconnect(client,userdata,message):
     print("Disconnected from broker")
 
 """
+---------------------------------------------------------------------
 inserted the following to help debug MQTT events
+---------------------------------------------------------------------
 """
 def onLog(client, userdata, level, buf):
     print("log: ",buf)
+
+"""
+---------------------------------------------------------------------
+"""
 
 def create_player(num,starting_health):
     instance=dict(player=num,shots_fired=0,kills=0,deaths=0,health=starting_health,ammo=0,tags_given=dict(rshoulder=0,lshoulder=0,chest=0,back=0),tags_received=dict(rshoulder=0,lshoulder=0,chest=0,back=0))

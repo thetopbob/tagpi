@@ -388,6 +388,7 @@ try:
 	player.on_disconnect=onDisconnect
 	player.on_log=onLog
 	sound_class = ltsounds.Buzzer()
+	sockid=lirc.init("ltag",blocking=False)
 	game_in_progress=False
 
 	while not connected:
