@@ -188,7 +188,7 @@ def LED_waiting(delay):
 		sleep(delay)
 		GPIO.output(color,GPIO.LOW)
 
-def shoot(pin):
+def shoot():
     global maxDeaths, stats
     if(stats['health']==0 or stats['deaths']>maxDeaths):
         sound('error')
@@ -229,7 +229,7 @@ def tag_given():
     sound('tag_given')
     LED(BLUE,1)
 
-def player_reload(pin):
+def player_reload():
     global stats,game_in_progress
     if(stats['health']<=0):
         sound('error')
@@ -237,6 +237,7 @@ def player_reload(pin):
         sound('reloading')
         stats['ammo'] = maxAmmo
         LED(GREEN,0.5)
+		print("Reload complete") #added for logging purposes
 
 def dead(return_topic):
     global stats,game_in_progress
@@ -456,5 +457,6 @@ try:
 				raise Exception
 
 finally:
+	lirc.deinit()
 	GPIO.cleanup()
 	player.disconnect()
