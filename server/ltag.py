@@ -115,7 +115,7 @@ while True:
 
         gvars.init() #pull in all the global variables
 #        if not repeat:
-        if pregame.pregame_gui():
+        if pregame.pregame_gui():                                                                                                                                       
             raise KeyboardInterrupt
 #        repeat=False
 
