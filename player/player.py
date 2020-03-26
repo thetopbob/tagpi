@@ -21,8 +21,10 @@ LTSERVER='192.168.1.161' #insert IP address of server computer
 #I2C_SCL:   	GPIO3
 #MOTOR_A_FWD:	GPIO23
 #MOTOR_A_BK:	GPIO24
+#MOTOR_A_PWM:	GPIO12
 #MOTOR_B_FWD:	GPIO19
 #MOTOR_B_BK:	GPIO16
+#MOTOR_B_PWM:	GPIO13
 #---------------------
 import paho.mqtt.client as mqtt
 from os import _exit
@@ -41,17 +43,16 @@ from approxeng.input.selectbinder import ControllerResource
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-""" Suggest removing trigger and reload when controller is working """
-#TRIGGER=6
-#RELOAD=12
 RED=20
 GREEN=21
 BLUE=26
 # Define what pins are required for the motors
 MOTORAFWD=23
 MOTORABK=24
+MOTORBPWM=12
 MOTORBFWD=19
 MOTORBBK=16
+MOTORBPWM=13
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
 Frequency = 20
@@ -72,8 +73,10 @@ GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
 GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
+GPIO.setup(MOTORAPWM, GPIO.OUT)
 GPIO.setup(MOTORBFWD, GPIO.OUT)
 GPIO.setup(MOTORBBK, GPIO.OUT)
+GPIO.setup(MOTORBPWM, GPIO.OUT)
 
 forwardLeft = GPIO.PWM(MOTORAFWD, Frequency)
 reverseLeft = GPIO.PWM(MOTORABK, Frequency)
@@ -230,13 +233,13 @@ def tag_given():
     LED(BLUE,1)
 
 def player_reload():
-    global stats,game_in_progress
-    if(stats['health']<=0):
-        sound('error')
-    else:
-        sound('reloading')
-        stats['ammo'] = maxAmmo
-        LED(GREEN,0.5)
+	global stats,game_in_progress
+	if(stats['health']<=0):
+		sound('error')
+	else:
+		sound('reloading')
+		stats['ammo'] = maxAmmo
+		LED(GREEN,0.5)
 		print("Reload complete") #added for logging purposes
 
 def dead(return_topic):
@@ -422,19 +425,19 @@ try:
 						
 				with ControllerResource() as joystick:
 					while joystick.connected:
-						ddown_held, dup_held, dleft_held, dright_held, circle_held, cross_held = joystick['ddown','dup','dleft','dright','circle','cross']
+						ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
 						if dup_held is not None:
-							motor_forward(dup_held)
+							motor_forward()
 						if ddown_held is not None:
-							motor_reverse(ddown_held)
+							motor_reverse()
 						if dleft_held is not None:
-							spin_left(dleft_held)
+							spin_left()
 						if dright_held is not None:
-							spin_right(dright_held)
+							spin_right()
 						joystick.check_presses()
 						if joystick.presses.circle:
 							player_reload()
-						elif joystick.presses.l1:
+						if joystick.presses.cross:
 							shoot()
 			
 			except IOError:

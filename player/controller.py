@@ -9,8 +9,10 @@ GPIO.setwarnings(False)
 # Define what pins are required for the motors
 MOTORAFWD=23
 MOTORABK=24
+MOTORAPWM=12
 MOTORBFWD=19
 MOTORBBK=16
+MOTORBPWM=13
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
 Frequency = 20
@@ -23,8 +25,10 @@ BLUE=26
 
 GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
+GPIO.setup(MOTORAPWM, GPIO.OUT)
 GPIO.setup(MOTORBFWD, GPIO.OUT)
 GPIO.setup(MOTORBBK, GPIO.OUT)
+GPIO.setup(MOTORBPWM, GPIO.OUT)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
