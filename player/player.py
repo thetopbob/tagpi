@@ -19,12 +19,10 @@ LTSERVER='192.168.1.161' #insert IP address of server computer
 #BLUE:      	GPIO26
 #I2C_SDA:   	GPIO2
 #I2C_SCL:   	GPIO3
-#MOTOR_A_FWD:	GPIO23
-#MOTOR_A_BK:	GPIO24
-#MOTOR_A_PWM:	GPIO12
-#MOTOR_B_FWD:	GPIO19
-#MOTOR_B_BK:	GPIO16
-#MOTOR_B_PWM:	GPIO13
+#MOTOR_A_FWD:	GPIO10
+#MOTOR_A_BK:	GPIO9
+#MOTOR_B_FWD:	GPIO8
+#MOTOR_B_BK:	GPIO7
 #---------------------
 import paho.mqtt.client as mqtt
 from os import _exit
@@ -47,12 +45,10 @@ RED=20
 GREEN=21
 BLUE=26
 # Define what pins are required for the motors
-MOTORAFWD=23
-MOTORABK=24
-MOTORBPWM=12
-MOTORBFWD=19
-MOTORBBK=16
-MOTORBPWM=13
+MOTORAFWD=10
+MOTORABK=9
+MOTORBFWD=8
+MOTORBBK=7
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
 Frequency = 20
@@ -73,10 +69,8 @@ GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
 GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
-GPIO.setup(MOTORAPWM, GPIO.OUT)
 GPIO.setup(MOTORBFWD, GPIO.OUT)
 GPIO.setup(MOTORBBK, GPIO.OUT)
-GPIO.setup(MOTORBPWM, GPIO.OUT)
 
 forwardLeft = GPIO.PWM(MOTORAFWD, Frequency)
 reverseLeft = GPIO.PWM(MOTORABK, Frequency)
@@ -428,16 +422,22 @@ try:
 						ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
 						if dup_held is not None:
 							motor_forward()
+							sleep(dup_held)
 						if ddown_held is not None:
 							motor_reverse()
+							sleep(ddown_held)
 						if dleft_held is not None:
 							spin_left()
+							sleep(dleft_held)
 						if dright_held is not None:
 							spin_right()
+							sleep(dright_held)
 						joystick.check_presses()
 						if joystick.presses.circle:
 							player_reload()
 						if joystick.presses.cross:
+							shoot()
+						if joystick.presses.r2:
 							shoot()
 			
 			except IOError:

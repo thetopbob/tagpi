@@ -58,72 +58,63 @@ def LED_func(color,delay):
         GPIO.output(color,GPIO.LOW)
 
 def motor_stop():
-        forwardLeft.ChangeDutyCycle(Stop)
-        forwardRight.ChangeDutyCycle(Stop)
-        reverseLeft.ChangeDutyCycle(Stop)
-        reverseRight.ChangeDutyCycle(Stop)
-        GPIO.output(MOTORAPWM,GPIO.LOW)
-        GPIO.output(MOTORBPWM,GPIO.LOW)
-        print('I stopped')
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(Stop)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def motor_forward():
-        GPIO.output(MOTORAPWM,GPIO.HIGH)
-        GPIO.output(MOTORBPWM,GPIO.HIGH)
-        forwardLeft.ChangeDutyCycle(Stop)
-        forwardRight.ChangeDutyCycle(DutyCycleA)
-        reverseLeft.ChangeDutyCycle(Stop)
-        reverseRight.ChangeDutyCycle(DutyCycleA)
-        print('I went forward')
-        GPIO.output(MOTORAPWM,GPIO.LOW)
-        GPIO.output(MOTORBPWM,GPIO.LOW)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(DutyCycleA)
+	reverseLeft.ChangeDutyCycle(Stop)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def spin_right():
-        forwardLeft.ChangeDutyCycle(Stop)
-        forwardRight.ChangeDutyCycle(Stop)
-        reverseLeft.ChangeDutyCycle(DutyCycleB)
-        reverseRight.ChangeDutyCycle(DutyCycleA)
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def spin_left():
-        forwardLeft.ChangeDutyCycle(Stop)
-        forwardRight.ChangeDutyCycle(DutyCycleA)
-        reverseLeft.ChangeDutyCycle(DutyCycleB)
-        reverseRight.ChangeDutyCycle(Stop)
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(DutyCycleA)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(Stop)
 
-def reverseDrive():
-        forwardLeft.ChangeDutyCycle(Stop)
-        forwardRight.ChangeDutyCycle(Stop)
-        reverseLeft.ChangeDutyCycle(DutyCycleB)
-        reverseRight.ChangeDutyCycle(DutyCycleA)
-        print('I went back')
+def motor_reverse():
+	forwardLeft.ChangeDutyCycle(Stop)
+	forwardRight.ChangeDutyCycle(Stop)
+	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseRight.ChangeDutyCycle(DutyCycleA)
+
 
 while True:
         try:
                 with ControllerResource() as joystick:
-                        print('Found a joystick and connected')
-                        print(joystick.controls)
+			print('Found a joystick and connected')
                         while joystick.connected:
-                                ddown_held, dup_held, dleft_held, dright_held, circle_held, cross_held = joystick['ddown','dup','dleft','dright','circle','cross']
-                                if dup_held is not None:
-                                        #print(f'Up button held for {dup_held:.2f} seconds')
-                                        motor_forward()
-                                if ddown_held is not None:
-                                        #print(f'Down button held for {ddown_held:.2f} seconds')
-                                        reverseDrive()
-                                if dleft_held is not None:
-                                        spin_left()
-                                if dright_held is not None:
-                                        spin_left()
-                                if circle_held is not None:
-                                        LED(RED, circle_held)
-                                if cross_held is not None:
-                                        LED(GREEN, cross_held)
-                                joystick.check_presses()
-                                if joystick.has_presses:
-                                        print(joystick.presses)
-                                if 'start' in joystick.presses:
+				ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
+				if dup_held is not None:
+					motor_forward()
+					sleep(dup_held)
+				if ddown_held is not None:
+					motor_reverse()
+					sleep(ddown_held)
+				if dleft_held is not None:
+					spin_left()
+					sleep(dleft_held)
+				if dright_held is not None:
+					spin_right()
+					sleep(dright_held)
+				joystick.check_presses()
+				if joystick.presses.circle:
+					player_reload()
+				if joystick.presses.cross:
+					shoot()
+				if joystick.presses.r2:
+					motor_stop()
+                                if joystick.presses.start:
                                         raise RobotStopException()
-                                if 'square' in joystick.presses:
-                                        motor_stop()
         # Joystick disconnected..
                                 #print('Connection to joystick lost')
         except IOError:
