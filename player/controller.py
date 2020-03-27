@@ -60,16 +60,16 @@ def motor_stop():
 	reverseRight.ChangeDutyCycle(Stop)
 
 def motor_forward():
-	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(DutyCycleA)
+	forwardLeft.ChangeDutyCycle(DutyCycleA)
+	forwardRight.ChangeDutyCycle(DutyCycleB)
 	reverseLeft.ChangeDutyCycle(Stop)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def spin_right():
-	forwardLeft.ChangeDutyCycle(Stop)
+	forwardLeft.ChangeDutyCycle(DutyCycleA)
 	forwardRight.ChangeDutyCycle(Stop)
 	reverseLeft.ChangeDutyCycle(DutyCycleB)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def spin_left():
 	forwardLeft.ChangeDutyCycle(Stop)
@@ -80,8 +80,8 @@ def spin_left():
 def motor_reverse():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycleB)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
+	reverseLeft.ChangeDutyCycle(DutyCycleA)
+	reverseRight.ChangeDutyCycle(DutyCycleB)
 
 
 while True:
@@ -92,16 +92,12 @@ while True:
                                 ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
                                 if dup_held is not None:
                                         motor_forward()
-                                        sleep(dup_held)
                                 if ddown_held is not None:
                                         motor_reverse()
-                                        sleep(ddown_held)
                                 if dleft_held is not None:
                                         spin_left()
-                                        sleep(dleft_held)
                                 if dright_held is not None:
                                         spin_right()
-                                        sleep(dright_held)
                                 joystick.check_presses()
                                 if joystick.presses.circle:
                                         LED(GREEN,0.5)
