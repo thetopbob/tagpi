@@ -11,8 +11,7 @@ MOTORAFWD=10
 MOTORABK=9
 MOTORBFWD=8
 MOTORBBK=7
-# Initialise objects for H-Bridge PWM pins
-# Set initial duty cycle to 0 and frequency to 1000
+# Set initial duty cycle to 40 and frequency to 20
 Frequency = 20
 DutyCycleA = 40 #left motor is A
 DutyCycleB = 40 #right motor is B
