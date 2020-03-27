@@ -253,28 +253,28 @@ def motor_stop():
 	reverseRight.ChangeDutyCycle(Stop)
 
 def motor_forward():
-	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(DutyCycleA)
+	forwardLeft.ChangeDutyCycle(DutyCycleA)
+	forwardRight.ChangeDutyCycle(DutyCycleB)
 	reverseLeft.ChangeDutyCycle(Stop)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
+	reverseRight.ChangeDutyCycle(Stop)
 
 def spin_right():
-	forwardLeft.ChangeDutyCycle(Stop)
+	forwardLeft.ChangeDutyCycle(DutyCycleA)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	reverseLeft.ChangeDutyCycle(Stop)
 	reverseRight.ChangeDutyCycle(DutyCycleA)
 
 def spin_left():
 	forwardLeft.ChangeDutyCycle(Stop)
-	forwardRight.ChangeDutyCycle(DutyCycleA)
-	reverseLeft.ChangeDutyCycle(DutyCycleB)
+	forwardRight.ChangeDutyCycle(DutyCycleB)
+	reverseLeft.ChangeDutyCycle(DutyCycleA)
 	reverseRight.ChangeDutyCycle(Stop)
 
 def motor_reverse():
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
-	reverseLeft.ChangeDutyCycle(DutyCycleB)
-	reverseRight.ChangeDutyCycle(DutyCycleA)
+	reverseLeft.ChangeDutyCycle(DutyCycleA)
+	reverseRight.ChangeDutyCycle(DutyCycleB)
 
 def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Tank,Sniper,GunGame,LaserMaster are init with
 	global maxAmmo             #maxHealth,maxAmmo,maxDeaths,and waitTime(time to shoot the next shot)
