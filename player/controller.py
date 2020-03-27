@@ -7,12 +7,10 @@ import threading
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 # Define what pins are required for the motors
-MOTORAFWD=23
-MOTORABK=24
-MOTORAPWM=12
-MOTORBFWD=19
-MOTORBBK=16
-MOTORBPWM=13
+MOTORAFWD=10
+MOTORABK=9
+MOTORBFWD=8
+MOTORBBK=7
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
 Frequency = 20
@@ -25,10 +23,8 @@ BLUE=26
 
 GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
-GPIO.setup(MOTORAPWM, GPIO.OUT)
 GPIO.setup(MOTORBFWD, GPIO.OUT)
 GPIO.setup(MOTORBBK, GPIO.OUT)
-GPIO.setup(MOTORBPWM, GPIO.OUT)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
@@ -108,9 +104,9 @@ while True:
                                         sleep(dright_held)
                                 joystick.check_presses()
                                 if joystick.presses.circle:
-                                        player_reload()
+                                        LED(GREEN,0.5)
                                 if joystick.presses.cross:
-                                        shoot()
+                                        LED(RED,0.5)
                                 if joystick.presses.r2:
                                         motor_stop()
                                 if joystick.presses.start:
