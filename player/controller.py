@@ -91,28 +91,28 @@ def motor_reverse():
 while True:
         try:
                 with ControllerResource() as joystick:
-			print('Found a joystick and connected')
+                        print('Found a joystick and connected')
                         while joystick.connected:
-				ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
-				if dup_held is not None:
-					motor_forward()
-					sleep(dup_held)
-				if ddown_held is not None:
-					motor_reverse()
-					sleep(ddown_held)
-				if dleft_held is not None:
-					spin_left()
-					sleep(dleft_held)
-				if dright_held is not None:
-					spin_right()
-					sleep(dright_held)
-				joystick.check_presses()
-				if joystick.presses.circle:
-					player_reload()
-				if joystick.presses.cross:
-					shoot()
-				if joystick.presses.r2:
-					motor_stop()
+                                ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
+                                if dup_held is not None:
+                                        motor_forward()
+                                        sleep(dup_held)
+                                if ddown_held is not None:
+                                        motor_reverse()
+                                        sleep(ddown_held)
+                                if dleft_held is not None:
+                                        spin_left()
+                                        sleep(dleft_held)
+                                if dright_held is not None:
+                                        spin_right()
+                                        sleep(dright_held)
+                                joystick.check_presses()
+                                if joystick.presses.circle:
+                                        player_reload()
+                                if joystick.presses.cross:
+                                        shoot()
+                                if joystick.presses.r2:
+                                        motor_stop()
                                 if joystick.presses.start:
                                         raise RobotStopException()
         # Joystick disconnected..
