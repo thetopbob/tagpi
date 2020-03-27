@@ -67,6 +67,7 @@ def motor_forward(delay):
 	reverseLeft.ChangeDutyCycle(Stop)
 	reverseRight.ChangeDutyCycle(Stop)
 	sleep(delay)
+	motor_stop()
 
 def spin_right():
 	forwardLeft.ChangeDutyCycle(DutyCycleA)
@@ -94,7 +95,7 @@ while True:
                         while joystick.connected:
                                 ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
                                 if dup_held is not None:
-                                        motor_forward()
+                                        motor_forward(dup_held)
                                 if ddown_held is not None:
                                         motor_reverse()
                                 if dleft_held is not None:
