@@ -14,12 +14,13 @@ MOTORBBK=7
 # Initialise objects for H-Bridge PWM pins
 # Set initial duty cycle to 0 and frequency to 1000
 Frequency = 20
-DutyCycleA = 40
-DutyCycleB = 40
+DutyCycleA = 40 #left motor is A
+DutyCycleB = 40 #right motor is B
 Stop = 0
 RED=20
 GREEN=21
 BLUE=26
+IR=22
 
 GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
@@ -28,6 +29,7 @@ GPIO.setup(MOTORBBK, GPIO.OUT)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
+GPIO.setup(IR, GPIO.OUT)
 
 
 forwardLeft = GPIO.PWM(MOTORAFWD, Frequency)
@@ -64,7 +66,7 @@ def motor_forward(delay):
 	forwardRight.ChangeDutyCycle(DutyCycleB)
 	reverseLeft.ChangeDutyCycle(Stop)
 	reverseRight.ChangeDutyCycle(Stop)
-        sleep(delay)
+	sleep(delay)
 
 def spin_right():
 	forwardLeft.ChangeDutyCycle(DutyCycleA)
@@ -106,6 +108,8 @@ while True:
                                         LED(RED,0.5)
                                 if joystick.presses.r2:
                                         motor_stop()
+                                if joystick.presses.r1:
+                                        LED(IR,0.5)
                                 if joystick.presses.start:
                                         raise RobotStopException()
         # Joystick disconnected..
