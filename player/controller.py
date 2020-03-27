@@ -73,19 +73,24 @@ def spin_right(delay):
 	forwardRight.ChangeDutyCycle(DutyCycleB)
 	reverseLeft.ChangeDutyCycle(DutyCycleA)
 	reverseRight.ChangeDutyCycle(Stop)
+	sleep(delay)
+	motor_stop()
 
 def spin_left(delay):
 	forwardLeft.ChangeDutyCycle(DutyCycleA)
 	forwardRight.ChangeDutyCycle(Stop)
 	reverseLeft.ChangeDutyCycle(Stop)
 	reverseRight.ChangeDutyCycle(DutyCycleB)
+	sleep(delay)
+	motor_stop()
 
 def motor_reverse(delay):
 	forwardLeft.ChangeDutyCycle(Stop)
 	forwardRight.ChangeDutyCycle(Stop)
 	reverseLeft.ChangeDutyCycle(DutyCycleA)
 	reverseRight.ChangeDutyCycle(DutyCycleB)
-
+	sleep(delay)
+	motor_stop()
 
 while True:
         try:
