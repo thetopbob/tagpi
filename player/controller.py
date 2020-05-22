@@ -111,8 +111,8 @@ while True:
                                         LED(GREEN,0.5)
                                 if joystick.presses.cross:
                                         LED(RED,0.5)
-				if joystick.presses.square:
-					LED(BLUE,0.5)
+                                if joystick.presses.square:
+                                        LED(BLUE,0.5)
                                 if joystick.presses.r2:
                                         motor_stop()
                                 if joystick.presses.r1:
