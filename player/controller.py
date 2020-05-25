@@ -36,7 +36,6 @@ GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
 GPIO.setup(IR, GPIO.OUT)
-logging.debug("GPIO Pins mapped")
 
 forwardLeft = GPIO.PWM(MOTORAFWD, Frequency)
 reverseLeft = GPIO.PWM(MOTORABK, Frequency)
@@ -104,7 +103,7 @@ while True:
         try:
                 with ControllerResource() as joystick:
                         print('Found a joystick and connected')
-                        logging.debug("Found a joystick and connected")
+                        logging.info("Found a joystick and connected")
                         while joystick.connected:
                                 ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
                                 if dup_held is not None:
@@ -138,7 +137,7 @@ while True:
 
         except RobotStopException:
                 motor_stop()
-                logging.debug("Player exited the app")
+                logging.info("Player exited the app")
                 print("Exiting...")
                 GPIO.cleanup()
                 sys.exit()
