@@ -9,6 +9,13 @@ from subprocess import call
 import gvars
 import pregame
 from datetime import datetime,timedelta
+import logging
+
+logging.basicConfig(
+    filename='server.log',
+    level=logging.DEBUG,
+    format="%(asctime)s:%(levelname)s:%(message)s"
+    )
 
 call(["sudo","service","mosquitto","start"])
 sleep(.5) #make sure service has started prior to game start
