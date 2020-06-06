@@ -38,6 +38,8 @@ from subprocess import call
 import threading
 from datetime import datetime
 from approxeng.input.selectbinder import ControllerResource
+import controller
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -61,9 +63,6 @@ newgame='waiting'
 game_wait=3
 connected=False
 
-""" Suggest reviewing trigger and reload for later removal when the controller is working """
-#GPIO.setup(TRIGGER, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-#GPIO.setup(RELOAD, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(RED, GPIO.OUT)
 GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
@@ -418,27 +417,27 @@ try:
 					tag_received(str(code))
 						
 				with ControllerResource() as joystick:
-					while joystick.connected:
-						ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
-						if dup_held is not None:
-							motor_forward()
-							sleep(dup_held)
-						if ddown_held is not None:
-							motor_reverse()
-							sleep(ddown_held)
-						if dleft_held is not None:
-							spin_left()
-							sleep(dleft_held)
-						if dright_held is not None:
-							spin_right()
-							sleep(dright_held)
-						joystick.check_presses()
-						if joystick.presses.circle:
-							player_reload()
-						if joystick.presses.cross:
-							shoot()
-						if joystick.presses.r2:
-							shoot()
+                    while joystick.connected:
+                        ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
+                            if dup_held is not None:
+                                    motor_forward(dup_held)
+                            if ddown_held is not None:
+                                    motor_reverse(ddown_held)
+                            if dleft_held is not None:
+                                    spin_left(dleft_held)
+                            if dright_held is not None:
+                                    spin_right(dright_held)
+                            joystick.check_presses()
+                            if joystick.presses.circle:
+                                    player_reload()
+                            if joystick.presses.cross:
+                                    shoot()
+                                if joystick.presses.square:
+                                    shoot()
+                                if joystick.presses.r2:
+                                    shoot()
+                                if joystick.presses.r1:
+                                    shoot()
 			
 			except IOError:
 			# No joystick found, wait for a bit before trying again

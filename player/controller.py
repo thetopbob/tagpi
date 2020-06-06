@@ -3,13 +3,6 @@ from approxeng.input.selectbinder import ControllerResource
 from time import sleep
 import RPi.GPIO as GPIO
 import threading
-import logging
-
-logging.basicConfig(
-        filename='controller.log',
-        level=logging.DEBUG,
-        format="%(asctime)s:%(levelname)s:%(message)s"
-        )
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -23,11 +16,13 @@ Frequency = 20
 DutyCycleA = 40 #left motor is A
 DutyCycleB = 40 #right motor is B
 Stop = 0
+# Set the GPIOs for the LEDs
 RED=20
 GREEN=21
 BLUE=26
 IR=22
 
+# Complete the setup of the GPIO pins in line with the definitions above
 GPIO.setup(MOTORAFWD, GPIO.OUT)
 GPIO.setup(MOTORABK, GPIO.OUT)
 GPIO.setup(MOTORBFWD, GPIO.OUT)
@@ -37,21 +32,23 @@ GPIO.setup(GREEN, GPIO.OUT)
 GPIO.setup(BLUE, GPIO.OUT)
 GPIO.setup(IR, GPIO.OUT)
 
+# This sets the frequency of the motors, controlling the speed.
 forwardLeft = GPIO.PWM(MOTORAFWD, Frequency)
 reverseLeft = GPIO.PWM(MOTORABK, Frequency)
 forwardRight = GPIO.PWM(MOTORBFWD, Frequency)
 reverseRight = GPIO.PWM(MOTORBBK, Frequency)
 
+# Make sure the motors don't start when the app starts!
 forwardLeft.start(Stop)
 reverseLeft.start(Stop)
 forwardRight.start(Stop)
 reverseRight.start(Stop)
 
+# Dummy class to send empty events
 class RobotStopException(Exception):
         pass
 
 def LED(color,delay):
-        logging.debug("Player pressed {}".format(LED))
         LED_thread=threading.Thread(target=LED_func,args=[color,delay])
         LED_thread.daemon=True
         LED_thread.start()
@@ -60,6 +57,12 @@ def LED_func(color,delay):
         GPIO.output(color,GPIO.HIGH)
         sleep(delay)
         GPIO.output(color,GPIO.LOW)
+
+def LED_waiting(delay):
+	for color in [GREEN,BLUE,RED]:
+		GPIO.output(color,GPIO.HIGH)
+		sleep(delay)
+		GPIO.output(color,GPIO.LOW)
 
 def motor_stop():
 	forwardLeft.ChangeDutyCycle(Stop)
@@ -103,7 +106,6 @@ while True:
         try:
                 with ControllerResource() as joystick:
                         print('Found a joystick and connected')
-                        logging.info("Found a joystick and connected")
                         while joystick.connected:
                                 ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
                                 if dup_held is not None:
@@ -127,17 +129,16 @@ while True:
                                         LED(IR,0.5)
                                 if joystick.presses.start:
                                         raise RobotStopException()
-        # Joystick disconnected..
-                                #print('Connection to joystick lost')
+        
         except IOError:
         # No joystick found, wait for a bit before trying again
                 print('Unable to find any joysticks. Trying again in 5 seconds..')
-                logging.error("Cannot find a joystick")
+                LED_waiting(5)
                 sleep(5.0)
 
         except RobotStopException:
+        # Stop the app, but before doing so make sure the motors stop and clean up the GPIO
                 motor_stop()
-                logging.info("Player exited the app")
                 print("Exiting...")
                 GPIO.cleanup()
                 sys.exit()
