@@ -129,8 +129,10 @@ while True:
                                         motor_stop()
                                 if joystick.presses.r1:
                                         LED(IR,0.5)
+                                        LED(BLUE,0.5)
                                 if joystick.presses.r2:
-                                        LED(IR,0.5)                                
+                                        LED(IR,0.5)
+                                        LED(RED,0.5)                               
                                 if joystick.presses.start:
                                         raise RobotStopException()
         
