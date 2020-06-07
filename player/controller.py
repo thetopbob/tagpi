@@ -1,10 +1,10 @@
 # This code has been built primarily to test out a controller without needing to start a game server
 
 import sys
+import threading
 from approxeng.input.selectbinder import ControllerResource
 from time import sleep
 import RPi.GPIO as GPIO
-import threading
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)

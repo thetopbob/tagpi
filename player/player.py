@@ -28,18 +28,16 @@ import paho.mqtt.client as mqtt
 from os import _exit
 from sys import exit
 from time import sleep
-import RPi.GPIO as GPIO
 from random import randint
+import threading
 import ast
 import lirc
 from py_irsend import irsend
-import ltsounds
 from subprocess import call
-import threading
 from datetime import datetime
 from approxeng.input.selectbinder import ControllerResource
-import controller
-
+import RPi.GPIO as GPIO
+import ltsounds
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -414,30 +412,29 @@ try:
 			try:
 				code=lirc.nextcode()
 				if code:
-					tag_received(str(code))
-						
+					tag_received(str(code))		
 				with ControllerResource() as joystick:
-                    while joystick.connected:
-                        ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
-                        if dup_held is not None:
-                            motor_forward(dup_held)
-                        if ddown_held is not None:
-	                       motor_reverse(ddown_held)
-                        if dleft_held is not None:
-                            spin_left(dleft_held)
-                        if dright_held is not None:
-                            spin_right(dright_held)
-                        joystick.check_presses()
-                	    if joystick.presses.circle:
-                            player_reload()
-                        if joystick.presses.cross:
-                            shoot()
-                        if joystick.presses.square:
-                            shoot()
-                        if joystick.presses.r2:
-                            shoot()
-                        if joystick.presses.r1:
-                            shoot()
+					while joystick.connected:
+						ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
+						if dup_held is not None:
+							motor_forward(dup_held)
+						if ddown_held is not None:
+							motor_reverse(ddown_held)
+						if dleft_held is not None:
+							spin_left(dleft_held)
+						if dright_held is not None:
+							spin_right(dright_held)
+						joystick.check_presses()
+						if joystick.presses.circle:
+							player_reload()
+						if joystick.presses.cross:
+							shoot()
+						if joystick.presses.square:
+							shoot()
+						if joystick.presses.r2:
+							shoot()
+						if joystick.presses.r1:
+							shoot()
 			
 			except IOError:
 			# No joystick found, wait for a bit before trying again
