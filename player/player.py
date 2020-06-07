@@ -393,7 +393,7 @@ try:
 		except ConnectionRefusedError:
 			print('LTServer must be started first...')
 			LED_waiting(0.3)
-			sleep(1)
+			#sleep(1)
 	connected=False
 
 	while True:
@@ -439,13 +439,13 @@ try:
 			except IOError:
 			# No joystick found, wait for a bit before trying again
 				print('Unable to find any joysticks. Trying again in 3 seconds...')
-				sleep(3.0)
+				sleep(3)
 		
-		sleep(5) #wait for processes to end
+		sleep(3) #wait for processes to end
 		
 		while newgame=='waiting':
 			LED_waiting(0.3)
-			#sleep(1)
+			sleep(1)
 
 			if newgame=='next':
 				newgame=='waiting'
