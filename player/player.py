@@ -419,25 +419,25 @@ try:
 				with ControllerResource() as joystick:
                     while joystick.connected:
                         ddown_held, dup_held, dleft_held, dright_held = joystick['ddown','dup','dleft','dright']
-                            if dup_held is not None:
-                                    motor_forward(dup_held)
-                            if ddown_held is not None:
-                                    motor_reverse(ddown_held)
-                            if dleft_held is not None:
-                                    spin_left(dleft_held)
-                            if dright_held is not None:
-                                    spin_right(dright_held)
-                            joystick.check_presses()
-                            if joystick.presses.circle:
-                                    player_reload()
-                            if joystick.presses.cross:
-                                    shoot()
-                                if joystick.presses.square:
-                                    shoot()
-                                if joystick.presses.r2:
-                                    shoot()
-                                if joystick.presses.r1:
-                                    shoot()
+                        if dup_held is not None:
+                            motor_forward(dup_held)
+                        if ddown_held is not None:
+	                       motor_reverse(ddown_held)
+                        if dleft_held is not None:
+                            spin_left(dleft_held)
+                        if dright_held is not None:
+                            spin_right(dright_held)
+                        joystick.check_presses()
+                	    if joystick.presses.circle:
+                            player_reload()
+                        if joystick.presses.cross:
+                            shoot()
+                        if joystick.presses.square:
+                            shoot()
+                        if joystick.presses.r2:
+                            shoot()
+                        if joystick.presses.r1:
+                            shoot()
 			
 			except IOError:
 			# No joystick found, wait for a bit before trying again
