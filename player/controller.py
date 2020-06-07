@@ -139,7 +139,7 @@ while True:
         except IOError:
         # No joystick found, wait for a bit before trying again
                 print('Unable to find any joysticks. Trying again in 5 seconds..')
-                LED_waiting(5)
+                LED_waiting(2)
                 sleep(5.0)
 
         except RobotStopException:
