@@ -140,7 +140,7 @@ while True:
         # No joystick found, wait for a bit before trying again
                 print('Unable to find any joysticks. Trying again in 5 seconds..')
                 LED_waiting(2)
-                sleep(5.0)
+                sleep(5)
 
         except RobotStopException:
         # Stop the app, but before doing so make sure the motors stop and clean up the GPIO
