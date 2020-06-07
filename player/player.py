@@ -445,7 +445,7 @@ try:
 		
 		while newgame=='waiting':
 			LED_waiting(0.3)
-			sleep(1)
+			#sleep(1)
 
 			if newgame=='next':
 				newgame=='waiting'
