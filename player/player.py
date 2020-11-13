@@ -2,11 +2,11 @@
 
 # Future development: change the client parameter to prompt on join to the server
 # so that players join and press a button to confirm their slot
-# i.e. circle = player 1, cross = player 2, etc
-CLIENT='1' #each player needs to have a different CLIENT number. 1,2,3,etc,
+# i.e. circle = player 1, cross = player 2, etc. For now this has been built out as args.
+#CLIENT='1' #each player needs to have a different CLIENT number. 1,2,3,etc,
 # Future development: change this so that it is stored in a variables file on the local device.
-# For the the moment the IP address will be fixed, but this should be flexible
-LTSERVER='192.168.1.161' #insert IP address of server computer
+# For the the moment the IP address will be fixed, but this should be flexible. For now this has been built out as args.
+#LTSERVER='192.168.1.161' #insert IP address of server computer
 
 #---------------------
 #BUZZER:    	GPIO5
@@ -38,6 +38,7 @@ from datetime import datetime
 from approxeng.input.selectbinder import ControllerResource
 import RPi.GPIO as GPIO
 import ltsounds
+import argparse
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -377,6 +378,15 @@ def initialize(game_mode,end_type,end_value): #the game modes,Classic,Soldier,Ta
 #                        MAIN
 #----------------------------------------------------------
 try:
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--playerid', help='player number',	default='1', choices=['1','2','3'])
+	parser.add_argument('--server', help='IP address of the game server', default='192.168.1.161')
+
+	args = parser.parse_args()
+
+	CLIENT=args.playerid
+	LTSERVER=args.server
+
 	player=mqtt.Client(client_id=CLIENT,clean_session=True)
 	player.on_connect=onConnect
 	player.on_message=onMessage
