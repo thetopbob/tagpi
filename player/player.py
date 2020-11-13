@@ -10,8 +10,6 @@
 
 #---------------------
 #BUZZER:    	GPIO5
-#TRIGGER:   	GPIO
-#RELOAD:    	GPIO
 #IR_TX:     	GPIO22
 #IR_RX      	GPIO18         Notes for wiring
 #RED:       	GPIO20
@@ -199,12 +197,12 @@ def shoot():
 
 def tag_received(code):
 	global stats
-	player.publish('game/ltserver',CLIENT) #tell server I  was tagged
-	from_player=code[-3:-2] #who was the tagger
+	player.publish('game/ltserver',CLIENT) # tell server I  was tagged
+	from_player=code[-3:-2] # who was the tagger
 	print("Received tag from player"+ str(from_player))
-	return_topic='game/players/'+str(from_player) #who to reply to
-	player.publish(return_topic,CLIENT) #reply to tagger
-	tag_location=randint(0,len(stats['tags_received'])-1) #random 
+	return_topic='game/players/'+str(from_player) # who to reply to
+	player.publish(return_topic,CLIENT) # reply to tagger
+	tag_location=randint(0,len(stats['tags_received'])-1) # show where i was tagged for the post-game. currently random 
 	tmp=list(stats['tags_received'])[tag_location]
 	stats['tags_received'][tmp]+=1
 	stats['health']-=1
@@ -232,7 +230,7 @@ def player_reload():
 		sound('reloading')
 		stats['ammo'] = maxAmmo
 		LED(GREEN,0.5)
-		print("Reload complete") #added for logging purposes
+		print("Reload complete") # added for logging purposes
 
 def dead(return_topic):
     global stats,game_in_progress

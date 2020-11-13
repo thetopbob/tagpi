@@ -3,10 +3,10 @@
   <object class="ttk.Frame" id="pregame">
     <property name="borderwidth">15</property>
     <property name="cursor">top_left_arrow</property>
-    <property name="height">500</property>
+    <property name="height">400</property>
     <property name="padding">20</property>
     <property name="relief">sunken</property>
-    <property name="width">500</property>
+    <property name="width">400</property>
     <layout>
       <property name="column">0</property>
       <property name="ipady">20</property>
@@ -16,8 +16,8 @@
     </layout>
     <child>
       <object class="ttk.Label" id="title">
-        <property name="borderwidth">7</property>
-        <property name="font">{Liberation Serif} 48 {bold}</property>
+        <property name="borderwidth">2</property>
+        <property name="font">{Liberation Serif} 30 {bold}</property>
         <property name="text" translatable="yes">LASER TAG</property>
         <layout>
           <property name="column">0</property>
@@ -45,7 +45,7 @@
         <child>
           <object class="ttk.Label" id="num_players">
             <property name="cursor">none</property>
-            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="font">{Liberation Serif} 16 {}</property>
             <property name="text" translatable="yes">Select Number of Players</property>
             <layout>
               <property name="column">0</property>
@@ -75,7 +75,7 @@
         </child>
         <child>
           <object class="ttk.Label" id="game_type">
-            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="font">{Liberation Serif} 16 {}</property>
             <property name="text" translatable="yes">Select Game Mode</property>
             <layout>
               <property name="column">0</property>
@@ -136,7 +136,7 @@
         </layout>
         <child>
           <object class="ttk.Label" id="end_limit_type">
-            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="font">{Liberation Serif} 16 {}</property>
             <property name="text" translatable="yes">Select End Type</property>
             <layout>
               <property name="column">0</property>
@@ -177,7 +177,7 @@
         </child>
         <child>
           <object class="ttk.Label" id="end_limit_value">
-            <property name="font">{Liberation Serif} 24 {}</property>
+            <property name="font">{Liberation Serif} 16 {}</property>
             <property name="text" translatable="yes">End Limit</property>
             <layout>
               <property name="column">0</property>
@@ -213,7 +213,7 @@
           <object class="ttk.Label" id="ending_message">
             <property name="background">#d9d9d9</property>
             <property name="compound">top</property>
-            <property name="font">{Liberation Serif} 14 {italic}</property>
+            <property name="font">{Liberation Serif} 12 {italic}</property>
             <property name="text" translatable="yes">Each player will start with</property>
             <layout>
               <property name="column">0</property>
